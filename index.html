@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOMO陌陌-视频交友与语音聊天平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background-color: #f7f8fa;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: #ffffff;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+        .main-content {
+            padding: 25px 20px;
+            text-align: center;
+        }
+        .logo-img {
+            width: 85px;
+            height: 85px;
+            border-radius: 20px;
+            object-fit: cover;
+            box-shadow: 0 8px 20px rgba(255, 75, 110, 0.25);
+            margin-bottom: 15px;
+        }
+        h1 {
+            font-size: 24px;
+            color: #111;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+        .subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .online-badge {
+            display: inline-flex;
+            align-items: center;
+            background: #e6f9ed;
+            color: #07c160;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #07c160;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+            box-shadow: 0 0 0 rgba(7, 193, 96, 0.4);
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(7, 193, 96, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(7, 193, 96, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(7, 193, 96, 0); }
+        }
+
+        .download-btn {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, #ff4b6e 0%, #ff6b8b 100%);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 6px 15px rgba(255, 75, 110, 0.3);
+            margin-bottom: 10px;
+            transition: transform 0.2s;
+        }
+        .download-btn:active {
+            transform: scale(0.98);
+        }
+        
+        .download-btn.locked {
+            background: linear-gradient(135deg, #ccc 0%, #aaa 100%);
+            box-shadow: none;
+            cursor: not-allowed;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .version-info {
+            font-size: 11px;
+            color: #aaa;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 17px;
+            color: #222;
+            margin-bottom: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        .feature-card {
+            background: #fff9fa;
+            border: 1px solid #ffe6eb;
+            padding: 14px;
+            border-radius: 12px;
+            text-align: left;
+            display: flex;
+            align-items: center;
+        }
+        .feature-icon {
+            font-size: 24px;
+            margin-right: 12px;
+        }
+        .feature-card h3 {
+            font-size: 14px;
+            color: #ff4b6e;
+            margin-bottom: 2px;
+        }
+        .feature-card p {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .screenshots-container {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            scrollbar-width: none;
+            scroll-behavior: smooth;
+        }
+        .screenshots-container::-webkit-scrollbar {
+            display: none;
+        }
+        .screenshot-item {
+            min-width: 110px;
+            height: 200px;
+            background: #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #ddd;
+            flex-shrink: 0;
+        }
+        .screenshot-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .reviews-section {
+            margin-bottom: 30px;
+        }
+        .review-card {
+            background: #fdfdfd;
+            border: 1px solid #eee;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: left;
+            margin-bottom: 10px;
+            font-size: 13px;
+        }
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #444;
+        }
+        .stars {
+            color: #ffc107;
+            font-size: 12px;
+        }
+        .review-card p {
+            color: #666;
+            font-size: 12px;
+        }
+
+        /* App Details Format as requested in image */
+        .app-details-section {
+            background: #ffffff;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        .app-details-section h3 {
+            font-size: 16px;
+            color: #111;
+            margin-bottom: 12px;
+            text-align: center;
+            font-weight: 700;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f2f2f2;
+            font-size: 13px;
+        }
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        .detail-label {
+            color: #666;
+        }
+        .detail-value {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .open-survey-btn {
+            background: none;
+            border: none;
+            color: #ff4b6e;
+            font-size: 13px;
+            text-decoration: underline;
+            cursor: pointer;
+            margin: 15px 0;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #999;
+            border-top: 1px solid #eee;
+        }
+
+        .wechat-overlay {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 1000;
+            color: white;
+            padding: 30px 20px;
+            text-align: right;
+        }
+        .wechat-tip {
+            text-align: center;
+            margin-top: 80px;
+        }
+        .wechat-tip h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .wechat-tip p {
+            font-size: 14px;
+            color: #ccc;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        /* Survey Modal Styles */
+        .survey-overlay {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .survey-modal {
+            background: #ffffff;
+            width: 100%;
+            max-width: 380px;
+            border-radius: 16px;
+            padding: 25px 20px;
+            text-align: left;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .survey-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: #999;
+            cursor: pointer;
+        }
+        .survey-progress {
+            font-size: 12px;
+            color: #ff4b6e;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        .survey-modal h3 {
+            font-size: 16px;
+            color: #222;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+        .survey-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .survey-option-btn {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 12px 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #333;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .survey-option-btn:hover {
+            background: #fff0f3;
+            border-color: #ff4b6e;
+            color: #ff4b6e;
+        }
+
+        .survey-options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .survey-image-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .survey-image-card:hover {
+            border-color: #ff4b6e;
+            box-shadow: 0 4px 12px rgba(255, 75, 110, 0.15);
+        }
+        .survey-image-card img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+        }
+        .survey-image-card span {
+            display: block;
+            padding: 10px 5px;
+            font-size: 13px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .survey-loading {
+            display: none;
+            text-align: center;
+            padding: 30px 0;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #ffe6eb;
+            border-top: 4px solid #ff4b6e;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .survey-loading p {
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="main-content">
+            <!-- App Logo -->
+            <img class="logo-img" src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/d8/ec/a7/d8eca7b2-0710-62f5-9fe3-b9c35bb01742/Placeholder.mill/400x400Icon.ApSiOS01-75.webp" alt="App Logo">
+            
+            <!-- App Name & Subtitle -->
+            <h1>MOMO陌陌-视频交友与语音聊天平台</h1>
+            <p class="subtitle">同城快速匹配，马上认识身边的TA</p>
+            
+            <!-- Online Status Indicator -->
+            <div class="online-badge">
+                <span class="pulse-dot"></span> <span>当前 3,842 人在线匹配中</span>
+            </div>
+            
+            <!-- Download Button -->
+            <a href="#" class="download-btn locked" id="downloadBtn" target="_blank">请先完成问卷以解锁下载</a>
+            <div class="version-info">支持 Android & iOS ·安全无毒· V2.8.5</div>
+            
+            <!-- Trigger Survey Button -->
+            <button class="open-survey-btn" onclick="startSurvey()">参与问卷调查解锁下载 🎁</button>
+            
+            <!-- Features Section -->
+            <h2 class="section-title">为什么选择我们？</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📍</div>
+                    <div>
+                        <h3>同城匹配</h3>
+                        <p>快速遇见附近的有缘人，告别孤单</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <div>
+                        <h3>真实聊天</h3>
+                        <p>视频语音互动，拉近心与心的距离</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <div>
+                        <h3>安全私密</h3>
+                        <p>严格隐私保护，让您放心交友</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- App Screenshots Auto Slide Section -->
+            <h2 class="section-title">应用截图</h2>
+            <div class="screenshots-container" id="screenshotsSlider">
+                <div class="screenshot-item"><img src="https://photo77net.tc87.top/img/5f97ef1a2238498389eea9f03e354e17.jpg" alt="Screenshot 1"></div>
+                <div class="screenshot-item"><img src="https://pic35hub.tc87.top/img/5535fe50c81d6006a610f9ed3bc99b2a.jpg" alt="Screenshot 2"></div>
+                <div class="screenshot-item"><img src="https://photo76box.tc87.top/img/88ddfbd014c38001f2064dd844aeae1d.jpg" alt="Screenshot 3"></div>
+                <div class="screenshot-item"><img src="https://photo77net.tc87.top/img/5f97ef1a2238498389eea9f03e354e17.jpg" alt="Screenshot 4"></div>
+                <div class="screenshot-item"><img src="https://pic35hub.tc87.top/img/5535fe50c81d6006a610f9ed3bc99b2a.jpg" alt="Screenshot 5"></div>
+            </div>
+
+            <!-- User Reviews Section (Updated: About how cool the girls they found) -->
+            <h2 class="section-title">用户心声</h2>
+            <div class="reviews-section">
+                <div class="review-card">
+                    <div class="review-header">
+                        <span>A***g</span>
+                        <span class="stars">★★★★★</span>
+                    </div>
+                    <p>里面的小姐姐真的太惊艳了！不仅身材好、气质高级，而且聊天特别温柔有趣，简直绝了！</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <span>张***生</span>
+                        <span class="stars">★★★★★</span>
+                    </div>
+                    <p>同城匹配到的女孩子个个都是顶级漂亮，又甜又辣，完全超出预期，太赞了！</p>
+                </div>
+            </div>
+
+            <!-- App Details Section (Formatted exactly like the provided image) -->
+            <div class="app-details-section">
+                <h3>应用信息</h3>
+                <div class="detail-row">
+                    <span class="detail-label">大小</span>
+                    <span class="detail-value">30 MB</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">兼容性</span>
+                    <span class="detail-value">iOS 10.0+ / Android</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">语言</span>
+                    <span class="detail-value">简体中文</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">年龄分级</span>
+                    <span class="detail-value">限18岁以上</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">开发者</span>
+                    <span class="detail-value">同城约会科技</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            © 2026 同城约会 · 遇见你想见的人
+        </div>
+
+        <!-- WeChat Tip Overlay -->
+        <div class="wechat-overlay" id="wechatOverlay">
+            <div class="wechat-tip">
+                <h2>请在浏览器中打开</h2>
+                <p>当前环境无法直接下载<br>请点击右上角 <b>"..."</b> 按钮<br>选择 <b>"在浏览器中打开"</b></p>
+            </div>
+        </div>
+
+        <!-- Survey Modal -->
+        <div class="survey-overlay" id="surveyOverlay">
+            <div class="survey-modal">
+                <button class="survey-close" onclick="closeSurvey()">&times;</button>
+                
+                <div id="questionWrapper">
+                    <div class="survey-progress" id="surveyProgress">问题 1 / 5</div>
+                    <h3 id="surveyQuestion">加载中...</h3>
+                    <div id="surveyContentContainer"></div>
+                </div>
+
+                <div class="survey-loading" id="surveyLoading">
+                    <div class="spinner"></div>
+                    <p>正在匹配分析您的偏好 (<span id="countdown">3</span>s)...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function isWeChat() {
+            var ua = navigator.userAgent.toLowerCase();
+            return ua.indexOf('micromessenger') !== -1;
+        }
+
+        // Low speed auto-sliding screenshots logic
+        window.addEventListener('DOMContentLoaded', () => {
+            const slider = document.getElementById('screenshotsSlider');
+            const scrollStep = 1; 
+            const scrollInterval = 40; 
+
+            function autoSlide() {
+                if (slider) {
+                    slider.scrollLeft += scrollStep;
+                    if (slider.scrollLeft >= (slider.scrollWidth - slider.clientWidth)) {
+                        slider.scrollLeft = 0;
+                    }
+                }
+            }
+
+            let slideTimer = setInterval(autoSlide, scrollInterval);
+
+            slider.addEventListener('mouseenter', () => clearInterval(slideTimer));
+            slider.addEventListener('mouseleave', () => {
+                slideTimer = setInterval(autoSlide, scrollInterval);
+            });
+        });
+
+        const questions = [
+            {
+                q: "1. 你更偏好哪种体型？",
+                type: "image",
+                options: [
+                    { text: "中等尺寸", img: "https://i.ibb.co/wrwcqNdb/photo-2026-10-09-19-36-53-4.jpg" },
+                    { text: "小乳房", img: "https://i.ibb.co/MkyX9rmt/photo-2026-10-09-19-36-53-3.jpg" }
+                ]
+            },
+            {
+                q: "2. 你超过23岁吗？",
+                type: "text",
+                options: ["是的 我已年满23岁", "不，我不是"]
+            },
+            {
+                q: "3. 你想找什么类型的女孩约会？",
+                type: "text",
+                options: ["羞怯而娇小的身躯", "身材发育良好的女孩", "一个胸部丰满的女孩"]
+            },
+            {
+                q: "4. 你会带那个女孩去个好地方，比如酒店吗？",
+                type: "text",
+                options: ["是的，我会的", "不，我不会"]
+            },
+            {
+                q: "5. 你在哪里找到这个约会平台的？",
+                type: "text",
+                options: ["来自人工智能", "来自网页浏览", "好友建议"]
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+
+        function startSurvey() {
+            currentQuestionIndex = 0;
+            document.getElementById('surveyOverlay').style.display = 'flex';
+            renderQuestion();
+        }
+
+        function closeSurvey() {
+            document.getElementById('surveyOverlay').style.display = 'none';
+        }
+
+        function renderQuestion() {
+            document.getElementById('surveyLoading').style.display = 'none';
+            document.getElementById('questionWrapper').style.display = 'block';
+
+            if (currentQuestionIndex < questions.length) {
+                const currentQ = questions[currentQuestionIndex];
+                document.getElementById('surveyProgress').innerText = `问题 ${currentQuestionIndex + 1} / ${questions.length}`;
+                document.getElementById('surveyQuestion').innerText = currentQ.q;
+                
+                const container = document.getElementById('surveyContentContainer');
+                container.innerHTML = "";
+                
+                if (currentQ.type === "image") {
+                    const gridDiv = document.createElement('div');
+                    gridDiv.className = 'survey-options-grid';
+                    
+                    currentQ.options.forEach(opt => {
+                        const card = document.createElement('div');
+                        card.className = 'survey-image-card';
+                        card.innerHTML = `
+                            <img src="${opt.img}" alt="${opt.text}">
+                            <span>${opt.text}</span>
+                        `;
+                        card.onclick = function() {
+                            handleAnswer();
+                        };
+                        gridDiv.appendChild(card);
+                    });
+                    container.appendChild(gridDiv);
+                } else {
+                    const optionsDiv = document.createElement('div');
+                    optionsDiv.className = 'survey-options';
+                    
+                    currentQ.options.forEach(optionText => {
+                        const btn = document.createElement('button');
+                        btn.className = 'survey-option-btn';
+                        btn.innerText = optionText;
+                        btn.onclick = function() {
+                            handleAnswer();
+                        };
+                        optionsDiv.appendChild(btn);
+                    });
+                    container.appendChild(optionsDiv);
+                }
+            } else {
+                const downloadUrl = "https://apps.apple.com/us/app/momo%E9%99%8C%E9%99%8C-%E8%A7%86%E9%A2%91%E4%BA%A4%E5%8F%8B%E4%B8%8E%E8%AF%AD%E9%9F%B3%E8%81%8A%E5%A4%A9%E5%B9%B3%E5%8F%B0/id448165862";
+                
+                const downloadBtn = document.getElementById('downloadBtn');
+                downloadBtn.href = downloadUrl;
+                downloadBtn.classList.remove('locked');
+                downloadBtn.innerText = "立即下载安装";
+
+                const modal = document.querySelector('.survey-modal');
+                modal.innerHTML = `
+                    <button class="survey-close" onclick="closeSurvey()">&times;</button>
+                    <div class="survey-progress" style="color: #07c160;">完成</div>
+                    <h3 style="text-align: center; margin: 20px 0;">🎉 感谢您的参与！</h3>
+                    <p style="text-align: center; font-size: 13px; color: #666; margin-bottom: 20px;">您的反馈已收集，现在可以点击下载应用了！</p>
+                    <a href="${downloadUrl}" target="_blank" class="download-btn" style="text-align:center; display:block; margin-bottom:0; text-decoration:none;">前往下载应用</a>
+                `;
+            }
+        }
+
+        function handleAnswer() {
+            document.getElementById('questionWrapper').style.display = 'none';
+            document.getElementById('surveyLoading').style.display = 'block';
+
+            let timeLeft = 3; 
+            document.getElementById('countdown').innerText = timeLeft;
+
+            let timer = setInterval(function() {
+                timeLeft--;
+                document.getElementById('countdown').innerText = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    currentQuestionIndex++;
+                    renderQuestion();
+                }
+            }, 1000);
+        }
+
+        window.onload = function() {
+            if (isWeChat()) {
+                document.getElementById('wechatOverlay').style.display = 'block';
+            } else {
+                setTimeout(function() {
+                    startSurvey();
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+</html>
