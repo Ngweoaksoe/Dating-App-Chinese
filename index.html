@@ -95,6 +95,8 @@
             box-shadow: 0 6px 15px rgba(255, 75, 110, 0.3);
             margin-bottom: 10px;
             transition: transform 0.2s;
+            cursor: pointer;
+            border: none;
         }
         .download-btn:active {
             transform: scale(0.98);
@@ -206,7 +208,6 @@
             font-size: 12px;
         }
 
-        /* App Details Format as requested in image */
         .app-details-section {
             background: #ffffff;
             border: 1px solid #eee;
@@ -425,49 +426,49 @@
             <img class="logo-img" src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/d8/ec/a7/d8eca7b2-0710-62f5-9fe3-b9c35bb01742/Placeholder.mill/400x400Icon.ApSiOS01-75.webp" alt="App Logo">
             
             <!-- App Name & Subtitle -->
-            <h1>MOMO陌陌-视频交友与语音聊天平台</h1>
+            <h1>今晚不再孤单</h1>
             <p class="subtitle">同城快速匹配，马上认识身边的TA</p>
             
             <!-- Online Status Indicator -->
             <div class="online-badge">
-                <span class="pulse-dot"></span> <span>当前 3,842 人在线匹配中</span>
+                <span class="pulse-dot"></span> <span>当前 3,842 人在线匹配中[cite: 1]</span>
             </div>
             
-            <!-- Download Button -->
-            <a href="#" class="download-btn locked" id="downloadBtn" target="_blank">请先完成问卷以解锁下载</a>
+            <!-- Download Button (Locked initially) -->
+            <button class="download-btn locked" id="downloadBtn" onclick="handleDownloadClick()">请先完成问卷以解锁下载[cite: 2]</button>
             <div class="version-info">支持 Android & iOS ·安全无毒· V2.8.5</div>
             
             <!-- Trigger Survey Button -->
-            <button class="open-survey-btn" onclick="startSurvey()">参与问卷调查解锁下载 🎁</button>
+            <button class="open-survey-btn" onclick="startSurvey()">参与问卷调查解锁下载 🎁[cite: 2]</button>
             
             <!-- Features Section -->
-            <h2 class="section-title">为什么选择我们？</h2>
+            <h2 class="section-title">为什么选择我们？[cite: 1, 2]</h2>
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">📍</div>
                     <div>
-                        <h3>同城匹配</h3>
-                        <p>快速遇见附近的有缘人，告别孤单</p>
+                        <h3>同城匹配[cite: 1, 2]</h3>
+                        <p>快速遇见附近的有缘人，告别孤单[cite: 1, 2]</p>
                     </div>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">💬</div>
                     <div>
-                        <h3>真实聊天</h3>
-                        <p>视频语音互动，拉近心与心的距离</p>
+                        <h3>真实聊天[cite: 1, 2]</h3>
+                        <p>视频语音互动，拉近心与心的距离[cite: 1, 2]</p>
                     </div>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🔒</div>
                     <div>
-                        <h3>安全私密</h3>
-                        <p>严格隐私保护，让您放心交友</p>
+                        <h3>安全私密[cite: 1, 2]</h3>
+                        <p>严格隐私保护，让您放心交友[cite: 1, 2]</p>
                     </div>
                 </div>
             </div>
 
             <!-- App Screenshots Auto Slide Section -->
-            <h2 class="section-title">应用截图</h2>
+            <h2 class="section-title">应用截图[cite: 1, 2]</h2>
             <div class="screenshots-container" id="screenshotsSlider">
                 <div class="screenshot-item"><img src="https://photo77net.tc87.top/img/5f97ef1a2238498389eea9f03e354e17.jpg" alt="Screenshot 1"></div>
                 <div class="screenshot-item"><img src="https://pic35hub.tc87.top/img/5535fe50c81d6006a610f9ed3bc99b2a.jpg" alt="Screenshot 2"></div>
@@ -476,61 +477,61 @@
                 <div class="screenshot-item"><img src="https://pic35hub.tc87.top/img/5535fe50c81d6006a610f9ed3bc99b2a.jpg" alt="Screenshot 5"></div>
             </div>
 
-            <!-- User Reviews Section (Updated: About how cool the girls they found) -->
-            <h2 class="section-title">用户心声</h2>
+            <!-- User Reviews Section -->
+            <h2 class="section-title">用户心声[cite: 1, 2]</h2>
             <div class="reviews-section">
                 <div class="review-card">
                     <div class="review-header">
-                        <span>A***g</span>
-                        <span class="stars">★★★★★</span>
+                        <span>A***g[cite: 1, 2]</span>
+                        <span class="stars">★★★★★[cite: 1, 2]</span>
                     </div>
-                    <p>里面的小姐姐真的太惊艳了！不仅身材好、气质高级，而且聊天特别温柔有趣，简直绝了！</p>
+                    <p>里面的小姐姐真的太惊艳了！不仅身材好、气质高级，而且聊天特别温柔有趣，简直绝了！[cite: 1, 2]</p>
                 </div>
                 <div class="review-card">
                     <div class="review-header">
-                        <span>张***生</span>
-                        <span class="stars">★★★★★</span>
+                        <span>张***生[cite: 1, 2]</span>
+                        <span class="stars">★★★★★[cite: 1, 2]</span>
                     </div>
-                    <p>同城匹配到的女孩子个个都是顶级漂亮，又甜又辣，完全超出预期，太赞了！</p>
+                    <p>同城匹配到的女孩子个个都是顶级漂亮，又甜又辣，完全超出预期，太赞了！[cite: 1, 2]</p>
                 </div>
             </div>
 
-            <!-- App Details Section (Formatted exactly like the provided image) -->
+            <!-- App Details Section -->
             <div class="app-details-section">
-                <h3>应用信息</h3>
+                <h3>应用信息[cite: 3]</h3>
                 <div class="detail-row">
-                    <span class="detail-label">大小</span>
-                    <span class="detail-value">30 MB</span>
+                    <span class="detail-label">大小[cite: 3]</span>
+                    <span class="detail-value">30 MB[cite: 3]</span>
                 </div>
                 <div class="detail-row">
-                    <span class="detail-label">兼容性</span>
-                    <span class="detail-value">iOS 10.0+ / Android</span>
+                    <span class="detail-label">兼容性[cite: 3]</span>
+                    <span class="detail-value">iOS 10.0+ / Android[cite: 3]</span>
                 </div>
                 <div class="detail-row">
-                    <span class="detail-label">语言</span>
-                    <span class="detail-value">简体中文</span>
+                    <span class="detail-label">语言[cite: 3]</span>
+                    <span class="detail-value">简体中文[cite: 3]</span>
                 </div>
                 <div class="detail-row">
-                    <span class="detail-label">年龄分级</span>
-                    <span class="detail-value">限18岁以上</span>
+                    <span class="detail-label">年龄分级[cite: 3]</span>
+                    <span class="detail-value">限18岁以上[cite: 3]</span>
                 </div>
                 <div class="detail-row">
-                    <span class="detail-label">开发者</span>
-                    <span class="detail-value">同城约会科技</span>
+                    <span class="detail-label">开发者[cite: 3]</span>
+                    <span class="detail-value">同城约会科技[cite: 3]</span>
                 </div>
             </div>
         </div>
 
         <!-- Footer -->
         <div class="footer">
-            © 2026 同城约会 · 遇见你想见的人
+            © 2026 同城约会 · 遇见你想见的人[cite: 1, 2]
         </div>
 
         <!-- WeChat Tip Overlay -->
         <div class="wechat-overlay" id="wechatOverlay">
             <div class="wechat-tip">
-                <h2>请在浏览器中打开</h2>
-                <p>当前环境无法直接下载<br>请点击右上角 <b>"..."</b> 按钮<br>选择 <b>"在浏览器中打开"</b></p>
+                <h2>请在浏览器中打开[cite: 1, 2]</h2>
+                <p>当前环境无法直接下载<br>请点击右上角 <b>"..."</b> 按钮<br>选择 <b>"在浏览器中打开"</b>[cite: 1, 2]</p>
             </div>
         </div>
 
@@ -540,14 +541,14 @@
                 <button class="survey-close" onclick="closeSurvey()">&times;</button>
                 
                 <div id="questionWrapper">
-                    <div class="survey-progress" id="surveyProgress">问题 1 / 5</div>
-                    <h3 id="surveyQuestion">加载中...</h3>
+                    <div class="survey-progress" id="surveyProgress">问题 1 / 5[cite: 1, 2]</div>
+                    <h3 id="surveyQuestion">加载中...[cite: 1, 2]</h3>
                     <div id="surveyContentContainer"></div>
                 </div>
 
                 <div class="survey-loading" id="surveyLoading">
                     <div class="spinner"></div>
-                    <p>正在匹配分析您的偏好 (<span id="countdown">3</span>s)...</p>
+                    <p>正在匹配分析您的偏好 (<span id="countdown">3</span>s)...[cite: 1, 2]</p>
                 </div>
             </div>
         </div>
@@ -584,36 +585,37 @@
 
         const questions = [
             {
-                q: "1. 你更偏好哪种体型？",
+                q: "1. 你更偏好哪种体型？[cite: 1, 2]",
                 type: "image",
                 options: [
-                    { text: "中等尺寸", img: "https://i.ibb.co/wrwcqNdb/photo-2026-10-09-19-36-53-4.jpg" },
-                    { text: "小乳房", img: "https://i.ibb.co/MkyX9rmt/photo-2026-10-09-19-36-53-3.jpg" }
+                    { text: "中等尺寸[cite: 1, 2]", img: "https://i.ibb.co/wrwcqNdb/photo-2026-10-09-19-36-53-4.jpg" },
+                    { text: "小乳房[cite: 1, 2]", img: "https://i.ibb.co/MkyX9rmt/photo-2026-10-09-19-36-53-3.jpg" }
                 ]
             },
             {
-                q: "2. 你超过23岁吗？",
+                q: "2. 你超过23岁吗？[cite: 1, 2]",
                 type: "text",
-                options: ["是的 我已年满23岁", "不，我不是"]
+                options: ["是的 我已年满23岁[cite: 1, 2]", "不，我不是[cite: 1, 2]"]
             },
             {
-                q: "3. 你想找什么类型的女孩约会？",
+                q: "3. 你想找什么类型的女孩约会？[cite: 1, 2]",
                 type: "text",
-                options: ["羞怯而娇小的身躯", "身材发育良好的女孩", "一个胸部丰满的女孩"]
+                options: ["羞怯而娇小的身躯[cite: 1, 2]", "身材发育良好的女孩[cite: 1, 2]", "一个胸部丰满的女孩[cite: 1, 2]"]
             },
             {
-                q: "4. 你会带那个女孩去个好地方，比如酒店吗？",
+                q: "4. 你会带那个女孩去个好地方，比如酒店吗？[cite: 1, 2]",
                 type: "text",
-                options: ["是的，我会的", "不，我不会"]
+                options: ["是的，我会的[cite: 1, 2]", "不，我不会[cite: 1, 2]"]
             },
             {
-                q: "5. 你在哪里找到这个约会平台的？",
+                q: "5. 你在哪里找到这个约会平台的？[cite: 1, 2]",
                 type: "text",
-                options: ["来自人工智能", "来自网页浏览", "好友建议"]
+                options: ["来自人工智能[cite: 1, 2]", "来自网页浏览[cite: 1, 2]", "好友建议[cite: 1, 2]"]
             }
         ];
 
         let currentQuestionIndex = 0;
+        let isSurveyCompleted = false;
 
         function startSurvey() {
             currentQuestionIndex = 0;
@@ -631,7 +633,7 @@
 
             if (currentQuestionIndex < questions.length) {
                 const currentQ = questions[currentQuestionIndex];
-                document.getElementById('surveyProgress').innerText = `问题 ${currentQuestionIndex + 1} / ${questions.length}`;
+                document.getElementById('surveyProgress').innerText = `问题 ${currentQuestionIndex + 1} / ${questions.length}`;[cite: 1, 2]
                 document.getElementById('surveyQuestion').innerText = currentQ.q;
                 
                 const container = document.getElementById('surveyContentContainer');
@@ -670,20 +672,20 @@
                     container.appendChild(optionsDiv);
                 }
             } else {
-                const downloadUrl = "https://apps.apple.com/us/app/momo%E9%99%8C%E9%99%8C-%E8%A7%86%E9%A2%91%E4%BA%A4%E5%8F%8B%E4%B8%8E%E8%AF%AD%E9%9F%B3%E8%81%8A%E5%A4%A9%E5%B9%B3%E5%8F%B0/id448165862";
+                // Survey Finished: Mark as completed and update button to show reserved message
+                isSurveyCompleted = true;
                 
                 const downloadBtn = document.getElementById('downloadBtn');
-                downloadBtn.href = downloadUrl;
                 downloadBtn.classList.remove('locked');
-                downloadBtn.innerText = "立即下载安装";
+                downloadBtn.innerText = "已预约，我们将联系您进行应用安装";
 
                 const modal = document.querySelector('.survey-modal');
                 modal.innerHTML = `
                     <button class="survey-close" onclick="closeSurvey()">&times;</button>
-                    <div class="survey-progress" style="color: #07c160;">完成</div>
-                    <h3 style="text-align: center; margin: 20px 0;">🎉 感谢您的参与！</h3>
-                    <p style="text-align: center; font-size: 13px; color: #666; margin-bottom: 20px;">您的反馈已收集，现在可以点击下载应用了！</p>
-                    <a href="${downloadUrl}" target="_blank" class="download-btn" style="text-align:center; display:block; margin-bottom:0; text-decoration:none;">前往下载应用</a>
+                    <div class="survey-progress" style="color: #07c160;">完成[cite: 1, 2]</div>
+                    <h3 style="text-align: center; margin: 20px 0;">🎉 感谢您的参与！[cite: 1, 2]</h3>
+                    <p style="text-align: center; font-size: 14px; color: #333; font-weight: bold; margin-bottom: 20px;">已预约，我们将联系您进行应用安装</p>
+                    <button class="download-btn" onclick="closeSurvey()" style="margin-bottom:0;">确定[cite: 1, 2]</button>
                 `;
             }
         }
@@ -704,6 +706,14 @@
                     renderQuestion();
                 }
             }, 1000);
+        }
+
+        function handleDownloadClick() {
+            if (isSurveyCompleted) {
+                alert("已预约，我们将联系您进行应用安装");
+            } else {
+                startSurvey();
+            }
         }
 
         window.onload = function() {
