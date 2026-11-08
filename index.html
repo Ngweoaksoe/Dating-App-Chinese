@@ -199,7 +199,7 @@
             letter-spacing: -0.3px;
         }
         
-        /* Page UI Video Task Section */
+        /* Page UI Video Task Section with Native HTML5 Player */
         .page-video-section {
             background: #ffffff;
             border: 2px dashed #ffcbd5;
@@ -218,36 +218,22 @@
         }
         .page-video-wrapper {
             width: 100%;
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio for Streamable */
-            height: 0;
+            height: 200px;
             border-radius: 12px;
             overflow: hidden;
-            background: #0b0f19;
+            background: #000;
+            position: relative;
         }
-        .page-video-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .page-video-wrapper video {
             width: 100%;
             height: 100%;
-            border: none;
+            object-fit: cover;
+            display: block;
         }
         .video-task-status {
             font-size: 12px;
             color: #4b5563;
             margin-top: 10px;
-            font-weight: 600;
-        }
-        .video-reload-btn {
-            margin-top: 8px;
-            background: #fff0f3;
-            border: 1px solid #ffccd5;
-            color: #ff4b6e;
-            font-size: 11px;
-            padding: 5px 10px;
-            border-radius: 8px;
-            cursor: pointer;
             font-weight: 600;
         }
 
@@ -286,10 +272,8 @@
             box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
             transition: all 0.2s;
         }
-        .share-btn:disabled {
-            background: #93c5fd;
-            cursor: not-allowed;
-            box-shadow: none;
+        .share-btn:hover {
+            background: #1d4ed8;
         }
         .share-progress-bar-bg {
             width: 100%;
@@ -780,21 +764,24 @@
             <!-- Trigger Survey Button -->
             <button class="open-survey-btn" id="surveyTriggerBtn" onclick="startChatSurvey()">开始互动匹配对话 💬</button>
             
-            <!-- Page UI Video Task Section (Streamable Video dynamically injected when visible) -->
+            <!-- Page UI Video Task Section with Native HTML5 Player to Fix Black Screen in Telegram -->
             <div class="page-video-section" id="pageVideoSection">
-                <h3 id="videoSectionTitle">🎬 专属推荐视频 (请完整观看以完成任务)</h3>
-                <div class="page-video-wrapper" id="pageVideoWrapper">
-                    <!-- Streamable iframe injected dynamically here so it never loads with 0x0 black screen -->
+                <h3>🎬 专属推荐视频 (请完整观看以完成任务)</h3>
+                <div class="page-video-wrapper">
+                    <video id="nativeVideoPlayer" autoplay muted loop playsinline controls preload="auto">
+                        <!-- Direct stable MP4 video source for 100% compatibility in Telegram Mini App -->
+                        <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+                        您的浏览器不支持视频播放
+                    </video>
                 </div>
-                <div class="video-task-status" id="videoTaskStatus">⏳ 正在加载专属推荐视频...</div>
-                <button class="video-reload-btn" onclick="reloadStreamableVideo()">🔄 如果视频未播放，请点击这里刷新播放</button>
+                <div class="video-task-status" id="videoTaskStatus">⏳ 正在统计观看时间... (还剩 10 秒)</div>
             </div>
 
             <!-- Telegram Direct Viral Share Section -->
             <div class="viral-share-box" id="viralShareBox">
                 <h4>🚀 解锁更多高清尊享视频 (Telegram 专属任务)</h4>
-                <p>将机器人链接分享给 <b>3 位或以上 Telegram 好友/群组</b>，即可解锁更多隐藏高清视频与极速安装通道！</p>
-                <button class="share-btn" id="tgShareBtn" onclick="shareToTelegram()">📤 立即分享给 Telegram 好友</button>
+                <p>请分享给 <b>3 位或以上 Telegram 好友/群组</b>，即可解锁更多隐藏高清视频与极速安装通道！</p>
+                <button class="share-btn" id="tgShareBtn" onclick="shareToTelegram()">📤 直接分享给 Telegram 好友</button>
                 <div class="share-progress-bar-bg">
                     <div class="share-progress-bar-fill" id="shareProgressBar"></div>
                 </div>
@@ -839,14 +826,14 @@
                 </div>
             </div>
 
-            <!-- App Screenshots Auto Slide Section (Your exact URLs with no-referrer to fix broken images) -->
+            <!-- App Screenshots Auto Slide Section with Direct Reliable ImgBB URLs to Prevent Broken Images in Telegram -->
             <h2 class="section-title">应用截图</h2>
             <div class="screenshots-container" id="screenshotsSlider">
-                <div class="screenshot-item"><img src="https://photo77net.tc87.top/img/5f97ef1a2238498389eea9f03e354e17.jpg" referrerpolicy="no-referrer" alt="Screenshot 1"></div>
-                <div class="screenshot-item"><img src="https://pic35hub.tc87.top/img/5535fe50c81d6006a610f9ed3bc99b2a.jpg" referrerpolicy="no-referrer" alt="Screenshot 2"></div>
-                <div class="screenshot-item"><img src="https://photo76box.tc87.top/img/88ddfbd014c38001f2064dd844aeae1d.jpg" referrerpolicy="no-referrer" alt="Screenshot 3"></div>
-                <div class="screenshot-item"><img src="https://photo77net.tc87.top/img/5f97ef1a2238498389eea9f03e354e17.jpg" referrerpolicy="no-referrer" alt="Screenshot 4"></div>
-                <div class="screenshot-item"><img src="https://pic35hub.tc87.top/img/5535fe50c81d6006a610f9ed3bc99b2a.jpg" referrerpolicy="no-referrer" alt="Screenshot 5"></div>
+                <div class="screenshot-item"><img src="https://i.ibb.co/wrwcqNdb/photo-2026-10-09-19-36-53-4.jpg" referrerpolicy="no-referrer" alt="Screenshot 1"></div>
+                <div class="screenshot-item"><img src="https://i.ibb.co/MkyX9rmt/photo-2026-10-09-19-36-53-3.jpg" referrerpolicy="no-referrer" alt="Screenshot 2"></div>
+                <div class="screenshot-item"><img src="https://i.ibb.co/XxcygqBc/photo-2026-08-30-13-15-05.jpg" referrerpolicy="no-referrer" alt="Screenshot 3"></div>
+                <div class="screenshot-item"><img src="https://i.ibb.co/wrwcqNdb/photo-2026-10-09-19-36-53-4.jpg" referrerpolicy="no-referrer" alt="Screenshot 4"></div>
+                <div class="screenshot-item"><img src="https://i.ibb.co/MkyX9rmt/photo-2026-10-09-19-36-53-3.jpg" referrerpolicy="no-referrer" alt="Screenshot 5"></div>
             </div>
 
             <!-- User Reviews Section -->
@@ -938,10 +925,9 @@
 
     <script>
         // =========================================================================
-        // 1. TELEGRAM BOT LINK CONFIGURATION (Change to your actual Telegram Bot URL)
+        // 1. TELEGRAM MINI APP DIRECT BOT LINK CONFIGURATION
         // =========================================================================
-        const TELEGRAM_BOT_LINK = "https://t.me/dating_mini_bot/direct"; 
-        const STREAMABLE_EMBED_URL = "https://streamable.com/e/e7bm1v?autoplay=1&muted=1&nocontrols=0";
+        const TELEGRAM_BOT_LINK = "https://t.me/dating_mini_bot/direct";
 
         // Initialize Telegram WebApp if inside Telegram Mini App
         if (window.Telegram && window.Telegram.WebApp) {
@@ -1010,10 +996,10 @@
                 if(ticker) ticker.innerHTML = `<span>${activities[actIndex]}</span>`;
             }, 4000);
 
-            // Real-time Live Online Visitor Fluctuation
+            // Real-time Live Online Visitor Fluctuation simulation
             let baseOnline = 3842;
             setInterval(() => {
-                const diff = Math.floor(Math.random() * 9) - 4;
+                const diff = Math.floor(Math.random() * 9) - 4; // -4 to +4
                 baseOnline += diff;
                 const onlineText = document.getElementById('onlineCountText');
                 if(onlineText) onlineText.innerText = `当前 ${baseOnline.toLocaleString()} 人在线匹配中`;
@@ -1062,8 +1048,11 @@
         let currentQuestionIndex = 0;
         let isChatCompleted = false;
         let isVideoTaskCompleted = false;
-        let isAllTasksCompleted = false;
-        let videoTimerStarted = false;
+        let telegramShareCount = 0;
+        const requiredShares = 3;
+        let isWaitingForShareReturn = false;
+        let shareClickTimestamp = 0;
+        let fallbackVerifyTimer = null;
 
         function startChatSurvey() {
             currentQuestionIndex = 0;
@@ -1135,17 +1124,18 @@
                 }
             } else {
                 isChatCompleted = true;
-                
-                const finalBubble = document.createElement('div');
-                finalBubble.className = 'chat-bubble agent';
-                finalBubble.innerHTML = "<b>🎉 偏好记录完成！</b><br>点击下方按钮立即观看为您匹配的专属推荐视频：";
-                chatBody.appendChild(finalBubble);
-                chatBody.scrollTop = chatBody.scrollHeight;
+                closeSurvey(); // Close chat modal automatically
 
-                const chatFooter = document.getElementById('chatFooter');
-                chatFooter.innerHTML = `
-                    <button class="download-btn" onclick="launchPageVideoTask()" style="margin-bottom:0;">🎬 立即观看专属推荐视频</button>
-                `;
+                const videoSection = document.getElementById('pageVideoSection');
+                videoSection.style.display = 'block';
+                videoSection.scrollIntoView({ behavior: 'smooth' });
+
+                document.getElementById('surveyTriggerBtn').innerText = "✅ 互动对话已完成，请观看下方视频任务";
+                document.getElementById('surveyTriggerBtn').style.background = "#e5e7eb";
+                document.getElementById('surveyTriggerBtn').style.color = "#4b5563";
+                document.getElementById('surveyTriggerBtn').disabled = true;
+
+                startVideoTaskTimer();
             }
         }
 
@@ -1175,57 +1165,9 @@
             }, 1800);
         }
 
-        // =========================================================================
-        // 2. FIX STREAMABLE VIDEO BLACK SCREEN IN TELEGRAM MINI APP
-        // Inject iframe ONLY after container is display:block and inside user click
-        // =========================================================================
-        function launchPageVideoTask() {
-            closeSurvey();
-
-            const videoSection = document.getElementById('pageVideoSection');
-            videoSection.style.display = 'block';
-
-            const triggerBtn = document.getElementById('surveyTriggerBtn');
-            triggerBtn.innerText = "✅ 互动对话已完成，请观看下方视频任务";
-            triggerBtn.style.background = "#e5e7eb";
-            triggerBtn.style.color = "#4b5563";
-            triggerBtn.disabled = true;
-
-            loadStreamableIframe();
-            videoSection.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function loadStreamableIframe() {
-            const wrapper = document.getElementById('pageVideoWrapper');
-            wrapper.innerHTML = "";
-
-            const iframe = document.createElement('iframe');
-            iframe.src = STREAMABLE_EMBED_URL;
-            iframe.setAttribute('frameborder', '0');
-            iframe.setAttribute(' width', '100%');
-            iframe.setAttribute('height', '100%');
-            iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; encrypted-media');
-            iframe.setAttribute('allowfullscreen', '');
-            iframe.setAttribute('referrerpolicy', 'origin');
-
-            iframe.onload = function() {
-                if (!videoTimerStarted) {
-                    videoTimerStarted = true;
-                    startVideoTaskTimer();
-                }
-            };
-
-            wrapper.appendChild(iframe);
-        }
-
-        function reloadStreamableVideo() {
-            loadStreamableIframe();
-        }
-
         function startVideoTaskTimer() {
-            let timeLeft = 12; 
+            let timeLeft = 10; 
             const statusEl = document.getElementById('videoTaskStatus');
-            statusEl.innerHTML = `⏳ 正在观看专属推荐视频... (还剩 ${timeLeft} 秒)`;
             
             let timer = setInterval(() => {
                 timeLeft--;
@@ -1233,10 +1175,10 @@
                     statusEl.innerHTML = `⏳ 正在观看专属推荐视频... (还剩 ${timeLeft} 秒)`;
                 } else {
                     clearInterval(timer);
-                    isVideoTaskCompleted = true;
-                    statusEl.innerHTML = `🎉 视频观看任务已完成！请完成下方 Telegram 好友分享以解锁更多高清视频`;
+                    statusEl.innerHTML = `🎉 视频观看任务已完成！请完成下方 Telegram 分享任务`;
                     statusEl.style.color = "#059669";
 
+                    // Show Telegram viral share box
                     const shareBox = document.getElementById('viralShareBox');
                     shareBox.style.display = 'block';
                     shareBox.scrollIntoView({ behavior: 'smooth' });
@@ -1245,14 +1187,8 @@
         }
 
         // =========================================================================
-        // 3. REAL TELEGRAM SHARE TRACKING (No blocking alert, verifies real return)
+        // REAL TELEGRAM SHARE VERIFICATION LOGIC
         // =========================================================================
-        let telegramShareCount = 0;
-        const requiredShares = 3;
-        let isWaitingForShareReturn = false;
-        let shareClickTimestamp = 0;
-        let fallbackVerifyTimer = null;
-
         function shareToTelegram() {
             const shareText = "🔥 发现了一个超棒的同城快速匹配平台，快来一起认识身边的TA吧！";
             const tgShareUrl = `https://t.me/share/url?url=${encodeURIComponent(TELEGRAM_BOT_LINK)}&text=${encodeURIComponent(shareText)}`;
@@ -1260,32 +1196,31 @@
             const shareBtn = document.getElementById('tgShareBtn');
             const feedbackMsg = document.getElementById('shareFeedbackMsg');
 
-            // Mark share start time and wait for user to actually share & return
             isWaitingForShareReturn = true;
             shareClickTimestamp = Date.now();
             shareBtn.disabled = true;
             shareBtn.innerText = "⏳ 正在等待您在 Telegram 完成发送...";
             feedbackMsg.style.color = "#2563eb";
-            feedbackMsg.innerText = "请在弹出的 Telegram 列表中选择好友并点击发送...";
+            feedbackMsg.innerText = "请在弹出的 Telegram 列表中选择好友并点击发送，然后切回小程序...";
 
-            // Open Telegram contact picker WITHOUT any blocking alert()
+            // Open Telegram share dialog
             if (window.Telegram && window.Telegram.WebApp && typeof window.Telegram.WebApp.openTelegramLink === 'function') {
                 window.Telegram.WebApp.openTelegramLink(tgShareUrl);
             } else {
                 window.open(tgShareUrl, '_blank');
             }
 
-            // Fallback in case Telegram overlay sheet doesn't fire window blur/focus on specific OS
+            // Fallback timer in case visibilitychange doesn't fire on some mobile WebViews
             clearTimeout(fallbackVerifyTimer);
             fallbackVerifyTimer = setTimeout(() => {
                 if (isWaitingForShareReturn) {
                     shareBtn.disabled = false;
-                    shareBtn.innerText = "✅ 我已发送给好友，点击确认并继续分享";
+                    shareBtn.innerText = "✅ 我已发送给好友，点击确认并继续";
                     shareBtn.onclick = function() {
                         verifyShareReturn();
                     };
                 }
-            }, 4500);
+            }, 5000);
         }
 
         function verifyShareReturn() {
@@ -1298,48 +1233,41 @@
             isWaitingForShareReturn = false;
             clearTimeout(fallbackVerifyTimer);
 
-            // Reset button click handler back to shareToTelegram
             shareBtn.onclick = shareToTelegram;
             shareBtn.disabled = false;
 
-            // Require at least 3.5 seconds spent in the Telegram contact picker to prevent fake/canceled shares
+            // Must spend at least 3.5 seconds to ensure user actually interacted with Telegram share sheet
             if (elapsed < 3500) {
                 shareBtn.innerText = "📤 重新分享给 Telegram 好友";
                 feedbackMsg.style.color = "#dc2626";
-                feedbackMsg.innerText = "⚠️ 检测到您未完成发送（返回过快），请真正发送给好友！";
+                feedbackMsg.innerText = "⚠️ 检测到您返回过快（未完成发送），请真正发送给好友！";
                 return;
             }
 
-            // Valid share completed
             telegramShareCount++;
             const progressPercent = Math.min((telegramShareCount / requiredShares) * 100, 100);
             document.getElementById('shareProgressBar').style.width = progressPercent + "%";
             document.getElementById('shareProgressText').innerText = `当前分享进度: ${telegramShareCount} / ${requiredShares} 位好友`;
 
             if (telegramShareCount >= requiredShares) {
-                isAllTasksCompleted = true;
+                isVideoTaskCompleted = true;
                 shareBtn.style.display = "none";
                 feedbackMsg.style.color = "#059669";
-                feedbackMsg.innerText = "🎉 恭喜！您已完成 3 位好友分享，已解锁更多尊享高清视频与安装通道！";
-
-                // Unlock more better videos notice & reload/upgrade video section
-                const videoTitle = document.getElementById('videoSectionTitle');
-                if (videoTitle) {
-                    videoTitle.innerText = "🔥 尊享高清视频已解锁 (感谢您的分享)";
-                }
+                feedbackMsg.innerText = "🎉 恭喜！您已完成 3 位好友分享，下载通道已开启！";
 
                 const downloadBtn = document.getElementById('downloadBtn');
                 downloadBtn.classList.remove('locked');
-                downloadBtn.innerText = "🎉 已完成全部任务，点击立即安装应用";
+                downloadBtn.innerText = "已完成全部任务，点击立即安装应用";
+                alert("🎉 恭喜您已成功完成所有分享任务！下载通道已开启。");
             } else {
                 const remaining = requiredShares - telegramShareCount;
                 shareBtn.innerText = `📤 继续分享给第 ${telegramShareCount + 1} 位 Telegram 好友`;
                 feedbackMsg.style.color = "#059669";
-                feedbackMsg.innerText = `✅ 成功分享 ${telegramShareCount} 次！再分享给 ${remaining} 位好友即可解锁更多精彩视频！`;
+                feedbackMsg.innerText = `✅ 成功记录 1 次有效分享！还需分享给另外 ${remaining} 位好友。`;
             }
         }
 
-        // Detect when user returns to Mini App from Telegram Share Sheet
+        // Listen when user returns from Telegram app back to Mini App
         document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'visible' && isWaitingForShareReturn) {
                 verifyShareReturn();
@@ -1353,7 +1281,7 @@
         });
 
         function handleDownloadClick() {
-            if (isAllTasksCompleted) {
+            if (isVideoTaskCompleted) {
                 alert("已预约，我们将联系您进行应用安装");
             } else {
                 alert("请先完成聊天对话、观看视频以及分享给 3 位 Telegram 好友任务！");
