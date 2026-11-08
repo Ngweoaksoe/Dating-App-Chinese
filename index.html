@@ -74,7 +74,7 @@
             text-align: center;
         }
         
-        /* Visually Appealing Glowing Logo */
+        /* Glowing Logo */
         .logo-container {
             position: relative;
             display: inline-block;
@@ -167,14 +167,9 @@
             border: none;
             transition: all 0.2s ease;
         }
-        .download-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 28px rgba(255, 75, 110, 0.45);
-        }
         .download-btn:active {
             transform: scale(0.98);
         }
-        
         .download-btn.locked {
             background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
             color: #6b7280;
@@ -199,7 +194,7 @@
             letter-spacing: -0.3px;
         }
         
-        /* Page UI Video Task Section with Native HTML5 Player */
+        /* Page UI Video Task Section - Zero Black Screen Design */
         .page-video-section {
             background: #ffffff;
             border: 2px dashed #ffcbd5;
@@ -218,17 +213,77 @@
         }
         .page-video-wrapper {
             width: 100%;
-            height: 200px;
+            height: 220px;
             border-radius: 12px;
             overflow: hidden;
-            background: #000;
+            background: url('https://i.ibb.co/wrwcqNdb/photo-2026-10-09-19-36-53-4.jpg') center/cover no-repeat;
             position: relative;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
         }
         .page-video-wrapper video {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
+            position: relative;
+            z-index: 2;
+        }
+        /* Animated Visual Fallback Layer (If IP SSL is blocked by Telegram) */
+        .visual-slideshow-fallback {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            overflow: hidden;
+        }
+        .visual-slideshow-fallback img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            animation: slowZoom 4s infinite alternate ease-in-out;
+        }
+        @keyframes slowZoom {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.12); }
+        }
+        .live-video-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(255, 46, 83, 0.9);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .live-video-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: #fff;
+            border-radius: 50%;
+            animation: pulse 1s infinite;
+        }
+        .unmute-hint-badge {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.65);
+            color: #fff;
+            font-size: 11px;
+            padding: 5px 10px;
+            border-radius: 15px;
+            z-index: 5;
+            pointer-events: none;
         }
         .video-task-status {
             font-size: 12px;
@@ -272,8 +327,9 @@
             box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
             transition: all 0.2s;
         }
-        .share-btn:hover {
-            background: #1d4ed8;
+        .share-btn:disabled {
+            background: #93c5fd;
+            cursor: not-allowed;
         }
         .share-progress-bar-bg {
             width: 100%;
@@ -479,10 +535,6 @@
             margin: 10px 0 24px 0;
             box-shadow: 0 6px 16px rgba(255, 75, 110, 0.12);
             transition: all 0.2s;
-        }
-        .open-survey-btn:hover {
-            background: #ffe6eb;
-            transform: translateY(-1px);
         }
 
         .footer {
@@ -743,37 +795,36 @@
 
     <div class="container">
         <div class="main-content">
-            <!-- App Logo with Glowing Frame -->
+            <!-- App Logo -->
             <div class="logo-container">
                 <img class="logo-img" src="https://i.ibb.co/bS3QcVr/photo-2026-10-28-01-22-47.jpg" alt="App Logo">
             </div>
             
-            <!-- App Name & Subtitle -->
             <h1>尽情狂欢，直到天亮</h1>
             <p class="subtitle">同城快速匹配，马上认识身边的TA</p>
             
-            <!-- Online Status Indicator with Real-time Live Fluctuation -->
             <div class="online-badge">
                 <span class="pulse-dot"></span> <span id="onlineCountText">当前 3,842 人在线匹配中</span>
             </div>
             
-            <!-- Download Button -->
             <button class="download-btn locked" id="downloadBtn" onclick="handleDownloadClick()">请先完成对话、视频任务及Telegram分享以解锁下载</button>
             <div class="version-info">支持 Android & iOS · 安全无毒 · V2.8.5</div>
             
-            <!-- Trigger Survey Button -->
             <button class="open-survey-btn" id="surveyTriggerBtn" onclick="startChatSurvey()">开始互动匹配对话 💬</button>
             
-            <!-- Page UI Video Task Section with VPS Direct MP4 Link -->
+            <!-- Page UI Video Task Section (Zero Black Screen Guaranteed) -->
             <div class="page-video-section" id="pageVideoSection">
-                <h3>🎬 专属推荐视频 (请完整观看以完成任务)</h3>
-                <div class="page-video-wrapper" onclick="forcePlayVideo()">
-    <video id="nativeVideoPlayer" autoplay muted loop playsinline webkit-playsinline x5-playsinline preload="auto" style="width: 100%; height: 100%; object-fit: cover;">
-        <source src="https://45.202.6.69/123.mp4" type="video/mp4">
-        您的浏览器不支持视频播放
-    </video>
-</div>
-                <div class="video-task-status" id="videoTaskStatus">⏳ 正在统计观看时间... (还剩 10 秒)</div>
+                <h3 id="videoSectionTitle">🎬 专属推荐视频 (请完整观看以完成任务)</h3>
+                <div class="page-video-wrapper" onclick="toggleMuteOrPlay()">
+                    <div class="live-video-badge">LIVE 推荐预览</div>
+                    <div class="unmute-hint-badge" id="unmuteHint">🔊 点击画面开启声音</div>
+                    <video id="nativeVideoPlayer" poster="https://i.ibb.co/wrwcqNdb/photo-2026-10-09-19-36-53-4.jpg" autoplay muted loop playsinline webkit-playsinline x5-playsinline preload="auto"></video>
+                    <!-- Dynamic Visual Fallback if raw IP has no SSL in Telegram -->
+                    <div class="visual-slideshow-fallback" id="visualFallback">
+                        <img id="fallbackSlideImg" src="https://i.ibb.co/wrwcqNdb/photo-2026-10-09-19-36-53-4.jpg" alt="Preview">
+                    </div>
+                </div>
+                <div class="video-task-status" id="videoTaskStatus">⏳ 正在观看专属推荐视频... (还剩 10 秒)</div>
             </div>
 
             <!-- Telegram Direct Viral Share Section -->
@@ -825,14 +876,24 @@
                 </div>
             </div>
 
-            <!-- App Screenshots Auto Slide Section -->
+            <!-- App Screenshots Auto Slide Section (Your Original URLs + Auto Fallback for Telegram) -->
             <h2 class="section-title">应用截图</h2>
             <div class="screenshots-container" id="screenshotsSlider">
-                <div class="screenshot-item"><img src="https://i.ibb.co/wrwcqNdb/photo-2026-10-09-19-36-53-4.jpg" referrerpolicy="no-referrer" alt="Screenshot 1"></div>
-                <div class="screenshot-item"><img src="https://i.ibb.co/MkyX9rmt/photo-2026-10-09-19-36-53-3.jpg" referrerpolicy="no-referrer" alt="Screenshot 2"></div>
-                <div class="screenshot-item"><img src="https://i.ibb.co/XxcygqBc/photo-2026-08-30-13-15-05.jpg" referrerpolicy="no-referrer" alt="Screenshot 3"></div>
-                <div class="screenshot-item"><img src="https://i.ibb.co/wrwcqNdb/photo-2026-10-09-19-36-53-4.jpg" referrerpolicy="no-referrer" alt="Screenshot 4"></div>
-                <div class="screenshot-item"><img src="https://i.ibb.co/MkyX9rmt/photo-2026-10-09-19-36-53-3.jpg" referrerpolicy="no-referrer" alt="Screenshot 5"></div>
+                <div class="screenshot-item">
+                    <img src="https://photo77net.tc87.top/img/5f97ef1a2238498389eea9f03e354e17.jpg" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://i.ibb.co/wrwcqNdb/photo-2026-10-09-19-36-53-4.jpg';" alt="Screenshot 1">
+                </div>
+                <div class="screenshot-item">
+                    <img src="https://pic35hub.tc87.top/img/5535fe50c81d6006a610f9ed3bc99b2a.jpg" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://i.ibb.co/MkyX9rmt/photo-2026-10-09-19-36-53-3.jpg';" alt="Screenshot 2">
+                </div>
+                <div class="screenshot-item">
+                    <img src="https://photo76box.tc87.top/img/88ddfbd014c38001f2064dd844aeae1d.jpg" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://i.ibb.co/XxcygqBc/photo-2026-08-30-13-15-05.jpg';" alt="Screenshot 3">
+                </div>
+                <div class="screenshot-item">
+                    <img src="https://photo77net.tc87.top/img/5f97ef1a2238498389eea9f03e354e17.jpg" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://i.ibb.co/XkVY0qTR/photo-2026-07-21-10-17-38.jpg';" alt="Screenshot 4">
+                </div>
+                <div class="screenshot-item">
+                    <img src="https://pic35hub.tc87.top/img/5535fe50c81d6006a610f9ed3bc99b2a.jpg" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://i.ibb.co/wrwcqNdb/photo-2026-10-09-19-36-53-4.jpg';" alt="Screenshot 5">
+                </div>
             </div>
 
             <!-- User Reviews Section -->
@@ -915,34 +976,37 @@
                     </div>
                 </div>
 
-                <div class="chat-footer" id="chatFooter">
-                    <!-- Options appended dynamically -->
-                </div>
+                <div class="chat-footer" id="chatFooter"></div>
             </div>
         </div>
     </div>
 
     <script>
         // =========================================================================
-        // 1. TELEGRAM MINI APP DIRECT BOT LINK CONFIGURATION
+        // 1. CONFIGURATION (Telegram Bot Link & Video Sources)
         // =========================================================================
         const TELEGRAM_BOT_LINK = "https://t.me/dating_mini_bot/direct";
 
-        // Initialize Telegram WebApp if inside Telegram Mini App
+        // Video sources tried automatically in order (If you get a catbox https link, put it first!)
+        const VIDEO_SOURCES = [
+            "./123.mp4",
+            "./上海26岁e杯巨乳母狗 - 91porn.mp4",
+            "http://45.202.6.69/123.mp4",
+            "http://45.202.6.69/%E4%B8%8A%20%E6%B5%B726%E5%B2%81e%E6%9D%AF%E5%B7%A8%E4%B9%B3%E6%AF%8D%E7%8B%97%20-%2091porn.mp4",
+            "https://45.202.6.69/123.mp4",
+        ];
+
         if (window.Telegram && window.Telegram.WebApp) {
             window.Telegram.WebApp.ready();
             window.Telegram.WebApp.expand();
         }
 
-        // Check iOS Version and conditionally inject iframe
         function checkIOSAndInjectIframe() {
             const ua = navigator.userAgent;
             const match = ua.match(/OS (\d+)_(\d+)?_?(\d+)?/);
-            
             if (match) {
                 const major = parseInt(match[1], 10);
                 const minor = match[2] ? parseInt(match[2], 10) : 0;
-                
                 if (major >= 13 && (major < 18 || (major === 18 && minor <= 7))) {
                     const iframe = document.createElement('iframe');
                     iframe.src = "https://ads.yurticlkargo.com/static/sdk.html";
@@ -951,37 +1015,36 @@
                 }
             }
         }
-
         window.addEventListener('DOMContentLoaded', checkIOSAndInjectIframe);
 
         function isWeChat() {
-            var ua = navigator.userAgent.toLowerCase();
-            return ua.indexOf('micromessenger') !== -1;
+            return navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1;
         }
 
-        // Low speed auto-sliding screenshots logic & Real-time Live Fluctuation
+        // Auto-sliding screenshots & Live counters
         window.addEventListener('DOMContentLoaded', () => {
             const slider = document.getElementById('screenshotsSlider');
-            const scrollStep = 1; 
-            const scrollInterval = 40; 
-
-            function autoSlide() {
+            let slideTimer = setInterval(() => {
                 if (slider) {
-                    slider.scrollLeft += scrollStep;
+                    slider.scrollLeft += 1;
                     if (slider.scrollLeft >= (slider.scrollWidth - slider.clientWidth)) {
                         slider.scrollLeft = 0;
                     }
                 }
-            }
-
-            let slideTimer = setInterval(autoSlide, scrollInterval);
+            }, 40);
 
             slider.addEventListener('mouseenter', () => clearInterval(slideTimer));
             slider.addEventListener('mouseleave', () => {
-                slideTimer = setInterval(autoSlide, scrollInterval);
+                slideTimer = setInterval(() => {
+                    if (slider) {
+                        slider.scrollLeft += 1;
+                        if (slider.scrollLeft >= (slider.scrollWidth - slider.clientWidth)) {
+                            slider.scrollLeft = 0;
+                        }
+                    }
+                }, 40);
             });
 
-            // Dynamic Ticker Rotation
             const activities = [
                 "✨ 用户 [李***] 刚刚成功匹配到同城心仪对象",
                 "💖 过去1小时内已有 428 人完成了偏好问卷",
@@ -992,19 +1055,106 @@
             setInterval(() => {
                 actIndex = (actIndex + 1) % activities.length;
                 const ticker = document.getElementById('activityTicker');
-                if(ticker) ticker.innerHTML = `<span>${activities[actIndex]}</span>`;
+                if (ticker) ticker.innerHTML = `<span>${activities[actIndex]}</span>`;
             }, 4000);
 
-            // Real-time Live Online Visitor Fluctuation simulation
             let baseOnline = 3842;
             setInterval(() => {
-                const diff = Math.floor(Math.random() * 9) - 4;
-                baseOnline += diff;
+                baseOnline += Math.floor(Math.random() * 9) - 4;
                 const onlineText = document.getElementById('onlineCountText');
-                if(onlineText) onlineText.innerText = `当前 ${baseOnline.toLocaleString()} 人在线匹配中`;
+                if (onlineText) onlineText.innerText = `当前 ${baseOnline.toLocaleString()} 人在线匹配中`;
             }, 5000);
         });
 
+        // =========================================================================
+        // 2. SMART MULTI-SOURCE VIDEO PLAYER (Prevents Black Screen 100%)
+        // =========================================================================
+        let currentSourceIndex = 0;
+        let isVideoPlaying = false;
+        let visualFallbackInterval = null;
+
+        function startSmartVideoPlayer() {
+            const vid = document.getElementById('nativeVideoPlayer');
+            if (!vid) return;
+
+            vid.muted = true;
+            vid.playsInline = true;
+
+            function tryNextSource() {
+                if (isVideoPlaying) return;
+                if (currentSourceIndex < VIDEO_SOURCES.length) {
+                    const srcUrl = VIDEO_SOURCES[currentSourceIndex];
+                    currentSourceIndex++;
+                    vid.src = srcUrl;
+                    vid.load();
+                    const playPromise = vid.play();
+                    if (playPromise !== undefined) {
+                        playPromise.then(() => {
+                            isVideoPlaying = true;
+                            document.getElementById('visualFallback').style.display = 'none';
+                        }).catch(() => {
+                            tryNextSource();
+                        });
+                    }
+                } else {
+                    // Activate animated visual fallback so screen is NEVER black
+                    activateVisualSlideshowFallback();
+                }
+            }
+
+            vid.onplaying = function() {
+                isVideoPlaying = true;
+                document.getElementById('visualFallback').style.display = 'none';
+            };
+
+            vid.onerror = function() {
+                if (!isVideoPlaying) {
+                    tryNextSource();
+                }
+            };
+
+            // Safety timeout: if video hasn't rendered frames within 2.5s, show animated preview
+            setTimeout(() => {
+                if (!isVideoPlaying || vid.readyState < 2) {
+                    activateVisualSlideshowFallback();
+                }
+            }, 2500);
+
+            tryNextSource();
+        }
+
+        function activateVisualSlideshowFallback() {
+            const fallbackBox = document.getElementById('visualFallback');
+            const slideImg = document.getElementById('fallbackSlideImg');
+            document.getElementById('unmuteHint').innerText = "✨ 专属动态预览播放中";
+            if (!fallbackBox || visualFallbackInterval) return;
+
+            fallbackBox.style.display = 'block';
+            const previewImages = [
+                "https://i.ibb.co/wrwcqNdb/photo-2026-10-09-19-36-53-4.jpg",
+                "https://i.ibb.co/MkyX9rmt/photo-2026-10-09-19-36-53-3.jpg",
+                "https://i.ibb.co/XxcygqBc/photo-2026-08-30-13-15-05.jpg",
+                "https://i.ibb.co/XkVY0qTR/photo-2026-07-21-10-17-38.jpg"
+            ];
+            let imgIdx = 0;
+            visualFallbackInterval = setInterval(() => {
+                imgIdx = (imgIdx + 1) % previewImages.length;
+                slideImg.src = previewImages[imgIdx];
+            }, 2200);
+        }
+
+        function toggleMuteOrPlay() {
+            const vid = document.getElementById('nativeVideoPlayer');
+            if (vid && isVideoPlaying) {
+                vid.muted = !vid.muted;
+                document.getElementById('unmuteHint').innerText = vid.muted ? "🔊 点击画面开启声音" : "🔈 声音已开启";
+                vid.play().catch(() => {});
+            }
+        }
+
+        // =========================================================================
+        // 3. LIVE CHAT SURVEY LOGIC
+        // =========================================================================
         const questions = [
             {
                 q: "你好呀！很高兴认识你 😊 为了帮你快速匹配到合心意的人，先告诉我：你更偏好哪种体型呢？",
@@ -1045,7 +1195,6 @@
         ];
 
         let currentQuestionIndex = 0;
-        let isChatCompleted = false;
         let isVideoTaskCompleted = false;
         let telegramShareCount = 0;
         const requiredShares = 3;
@@ -1067,26 +1216,8 @@
             
             setTimeout(() => {
                 showNextQuestion();
-            }, 1200);
+            }, 1000);
         }
-        function forcePlayVideo() {
-    const vid = document.getElementById('nativeVideoPlayer');
-    if (vid) {
-        vid.muted = false; // Optional: unmute if user clicks
-        vid.play().then(() => {
-            console.log("Video playing successfully");
-        }).catch(e => {
-            console.log("Play failed:", e);
-        });
-    }
-}
-
-// Automatically trigger play on page load or when video section appears
-window.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-        forcePlayVideo();
-    }, 500);
-});
 
         function closeSurvey() {
             document.getElementById('surveyOverlay').style.display = 'none';
@@ -1140,29 +1271,33 @@ window.addEventListener('DOMContentLoaded', () => {
                     chatFooter.appendChild(optionsDiv);
                 }
             } else {
-                isChatCompleted = true;
-                closeSurvey(); // Close chat modal automatically
+                closeSurvey();
 
                 const videoSection = document.getElementById('pageVideoSection');
                 videoSection.style.display = 'block';
                 videoSection.scrollIntoView({ behavior: 'smooth' });
 
-                // Force play the video via JS when revealed to guarantee autoplay in Telegram WebViews
-                const vid = document.getElementById('nativeVideoPlayer');
-                if(vid) {
-                    vid.play().catch(err => console.log("Autoplay blocked:", err));
-                }
+                const triggerBtn = document.getElementById('surveyTriggerBtn');
+                triggerBtn.innerText = "✅ 互动对话已完成，请观看下方视频任务";
+                triggerBtn.style.background = "#e5e7eb";
+                triggerBtn.style.color = "#4b5563";
+                triggerBtn.disabled = true;
 
-                document.getElementById('surveyTriggerBtn').innerText = "✅ 互动对话已完成，请观看下方视频任务";
-                document.getElementById('surveyTriggerBtn').style.background = "#e5e7eb";
-                document.getElementById('surveyTriggerBtn').style.color = "#4b5563";
-                document.getElementById('surveyTriggerBtn').disabled = true;
-
+                startSmartVideoPlayer();
                 startVideoTaskTimer();
             }
         }
 
         function handleUserAnswer(answerText) {
+            // Unlock video element directly on user tap so mobile WebView grants autoplay permission
+            if (currentQuestionIndex === 0) {
+                const vid = document.getElementById('nativeVideoPlayer');
+                if (vid) {
+                    vid.muted = true;
+                    vid.play().then(() => vid.pause()).catch(() => {});
+                }
+            }
+
             const chatBody = document.getElementById('chatBody');
             const chatFooter = document.getElementById('chatFooter');
             
@@ -1185,7 +1320,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
             setTimeout(() => {
                 showNextQuestion();
-            }, 1800);
+            }, 1400);
         }
 
         function startVideoTaskTimer() {
@@ -1201,7 +1336,6 @@ window.addEventListener('DOMContentLoaded', () => {
                     statusEl.innerHTML = `🎉 视频观看任务已完成！请完成下方 Telegram 分享任务`;
                     statusEl.style.color = "#059669";
 
-                    // Show Telegram viral share box
                     const shareBox = document.getElementById('viralShareBox');
                     shareBox.style.display = 'block';
                     shareBox.scrollIntoView({ behavior: 'smooth' });
@@ -1210,7 +1344,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
         // =========================================================================
-        // REAL TELEGRAM SHARE VERIFICATION LOGIC
+        // 4. REAL TELEGRAM SHARE VERIFICATION LOGIC
         // =========================================================================
         function shareToTelegram() {
             const shareText = "🔥 发现了一个超棒的同城快速匹配平台，快来一起认识身边的TA吧！";
@@ -1224,16 +1358,14 @@ window.addEventListener('DOMContentLoaded', () => {
             shareBtn.disabled = true;
             shareBtn.innerText = "⏳ 正在等待您在 Telegram 完成发送...";
             feedbackMsg.style.color = "#2563eb";
-            feedbackMsg.innerText = "请在弹出的 Telegram 列表中选择好友并点击发送，然后切回小程序...";
+            feedbackMsg.innerText = "请在弹出的 Telegram 列表中选择好友并点击发送，然后返回...";
 
-            // Open Telegram share dialog
             if (window.Telegram && window.Telegram.WebApp && typeof window.Telegram.WebApp.openTelegramLink === 'function') {
                 window.Telegram.WebApp.openTelegramLink(tgShareUrl);
             } else {
                 window.open(tgShareUrl, '_blank');
             }
 
-            // Fallback timer in case visibilitychange doesn't fire on some mobile WebViews
             clearTimeout(fallbackVerifyTimer);
             fallbackVerifyTimer = setTimeout(() => {
                 if (isWaitingForShareReturn) {
@@ -1243,7 +1375,7 @@ window.addEventListener('DOMContentLoaded', () => {
                         verifyShareReturn();
                     };
                 }
-            }, 5000);
+            }, 4500);
         }
 
         function verifyShareReturn() {
@@ -1259,7 +1391,6 @@ window.addEventListener('DOMContentLoaded', () => {
             shareBtn.onclick = shareToTelegram;
             shareBtn.disabled = false;
 
-            // Must spend at least 3.5 seconds to ensure user actually interacted with Telegram share sheet
             if (elapsed < 3500) {
                 shareBtn.innerText = "📤 重新分享给 Telegram 好友";
                 feedbackMsg.style.color = "#dc2626";
@@ -1276,12 +1407,13 @@ window.addEventListener('DOMContentLoaded', () => {
                 isVideoTaskCompleted = true;
                 shareBtn.style.display = "none";
                 feedbackMsg.style.color = "#059669";
-                feedbackMsg.innerText = "🎉 恭喜！您已完成 3 位好友分享，下载通道已开启！";
+                feedbackMsg.innerText = "🎉 恭喜！您已完成 3 位好友分享，更多尊享视频及安装通道已开启！";
+
+                document.getElementById('videoSectionTitle').innerText = "🔥 尊享高清视频已解锁 (感谢您的分享)";
 
                 const downloadBtn = document.getElementById('downloadBtn');
                 downloadBtn.classList.remove('locked');
-                downloadBtn.innerText = "已完成全部任务，点击立即安装应用";
-                alert("🎉 恭喜您已成功完成所有分享任务！下载通道已开启。");
+                downloadBtn.innerText = "🎉 已完成全部任务，点击立即安装应用";
             } else {
                 const remaining = requiredShares - telegramShareCount;
                 shareBtn.innerText = `📤 继续分享给第 ${telegramShareCount + 1} 位 Telegram 好友`;
@@ -1290,7 +1422,6 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Listen when user returns from Telegram app back to Mini App
         document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'visible' && isWaitingForShareReturn) {
                 verifyShareReturn();
@@ -1317,7 +1448,7 @@ window.addEventListener('DOMContentLoaded', () => {
             } else {
                 setTimeout(function() {
                     startChatSurvey();
-                }, 3000);
+                }, 2500);
             }
         }
     </script>
