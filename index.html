@@ -197,7 +197,6 @@
             letter-spacing: -0.3px;
         }
         
-        /* Interactive Hub with visual depth */
         .interactive-hub {
             background: linear-gradient(135deg, #fff8f9 0%, #fff0f3 100%);
             border: 1px solid #ffd6de;
@@ -242,11 +241,6 @@
             display: flex;
             align-items: center;
             box-shadow: 0 4px 14px rgba(0,0,0,0.03);
-            transition: transform 0.2s, border-color 0.2s;
-        }
-        .feature-card:hover {
-            transform: translateY(-2px);
-            border-color: #ffd6de;
         }
         .feature-icon {
             font-size: 24px;
@@ -294,10 +288,6 @@
             border: 1px solid #e5e7eb;
             flex-shrink: 0;
             box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-            transition: transform 0.2s;
-        }
-        .screenshot-item:hover {
-            transform: scale(1.03);
         }
         .screenshot-item img {
             width: 100%;
@@ -426,7 +416,7 @@
             line-height: 1.6;
         }
 
-        /* Survey Modal Styles */
+        /* Live Messaging Chat Modal Styles */
         .survey-overlay {
             display: none;
             position: fixed;
@@ -434,135 +424,207 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(11, 15, 25, 0.65);
+            background: rgba(11, 15, 25, 0.7);
             backdrop-filter: blur(5px);
             z-index: 2000;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 15px;
         }
         .survey-modal {
-            background: #ffffff;
+            background: #f8fafc;
             width: 100%;
-            max-width: 390px;
+            max-width: 400px;
+            height: 520px;
             border-radius: 20px;
-            padding: 24px;
-            text-align: left;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
             position: relative;
             box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
+        .chat-header {
+            background: #ffffff;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .chat-agent-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .chat-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ff4b6e;
+        }
+        .chat-name-status h4 {
+            font-size: 14px;
+            color: #1e293b;
+            font-weight: 700;
+        }
+        .chat-name-status span {
+            font-size: 11px;
+            color: #10b981;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .chat-name-status span::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: #10b981;
+            border-radius: 50%;
+            display: inline-block;
+        }
         .survey-close {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            background: #f3f4f6;
+            background: #f1f5f9;
             border: none;
-            width: 32px;
-            height: 32px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             font-size: 16px;
-            color: #4b5563;
+            color: #64748b;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.2s;
         }
-        .survey-close:hover {
-            background: #e5e7eb;
-        }
-        .survey-progress {
-            font-size: 11px;
-            color: #ff4b6e;
-            font-weight: 700;
-            margin-bottom: 6px;
-            text-transform: uppercase;
-        }
-        .survey-modal h3 {
-            font-size: 17px;
-            color: #111827;
-            margin-bottom: 16px;
-            line-height: 1.4;
-            font-weight: 700;
-        }
-        .survey-options {
+
+        .chat-body {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-bottom: 18px;
+            gap: 12px;
+            background: #f1f5f9;
         }
-        .survey-option-btn {
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
-            padding: 14px;
-            border-radius: 12px;
-            font-size: 14px;
-            color: #1f2937;
+        .chat-bubble {
+            max-width: 80%;
+            padding: 12px 14px;
+            border-radius: 14px;
+            font-size: 13px;
+            line-height: 1.4;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .chat-bubble.agent {
+            background: #ffffff;
+            color: #1e293b;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        }
+        .chat-bubble.user {
+            background: #ff4b6e;
+            color: #ffffff;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+            box-shadow: 0 2px 6px rgba(255, 75, 110, 0.2);
+        }
+        .chat-bubble img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 6px;
+        }
+        .typing-indicator {
+            align-self: flex-start;
+            background: #ffffff;
+            padding: 10px 14px;
+            border-radius: 14px;
+            border-bottom-left-radius: 4px;
+            display: none;
+            gap: 4px;
+            align-items: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        }
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: #94a3b8;
+            border-radius: 50%;
+            animation: bounce 1.2s infinite ease-in-out;
+        }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes bounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-4px); }
+        }
+
+        .chat-footer {
+            background: #ffffff;
+            padding: 12px 15px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 180px;
+            overflow-y: auto;
+        }
+        .chat-options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .chat-option-btn {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            color: #1e293b;
             text-align: left;
             cursor: pointer;
             font-weight: 500;
             transition: all 0.2s;
         }
-        .survey-option-btn:hover {
+        .chat-option-btn:hover {
             background: #fff0f3;
             border-color: #ff4b6e;
             color: #ff4b6e;
         }
-
-        .survey-options-grid {
+        .chat-options-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 18px;
+            gap: 8px;
         }
-        .survey-image-card {
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
+        .chat-image-card {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
             overflow: hidden;
             cursor: pointer;
             text-align: center;
             transition: all 0.2s;
         }
-        .survey-image-card:hover {
+        .chat-image-card:hover {
             border-color: #ff4b6e;
-            box-shadow: 0 6px 16px rgba(255, 75, 110, 0.15);
+            box-shadow: 0 4px 12px rgba(255, 75, 110, 0.15);
         }
-        .survey-image-card img {
+        .chat-image-card img {
             width: 100%;
-            height: 130px;
+            height: 90px;
             object-fit: cover;
         }
-        .survey-image-card span {
+        .chat-image-card span {
             display: block;
-            padding: 8px 6px;
-            font-size: 12px;
-            color: #1f2937;
+            padding: 6px 4px;
+            font-size: 11px;
+            color: #1e293b;
             font-weight: 600;
-        }
-
-        .survey-loading {
-            display: none;
-            text-align: center;
-            padding: 30px 0;
-        }
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid #ffe6eb;
-            border-top: 4px solid #ff4b6e;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin: 0 auto 14px auto;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .survey-loading p {
-            font-size: 14px;
-            color: #4b5563;
-            font-weight: 500;
         }
     </style>
 </head>
@@ -597,11 +659,11 @@
             </div>
             
             <!-- Download Button -->
-            <button class="download-btn locked" id="downloadBtn" onclick="handleDownloadClick()">请先完成问卷以解锁下载</button>
+            <button class="download-btn locked" id="downloadBtn" onclick="handleDownloadClick()">请先完成对话以解锁下载</button>
             <div class="version-info">支持 Android & iOS · 安全无毒 · V2.8.5</div>
             
             <!-- Trigger Survey Button -->
-            <button class="open-survey-btn" onclick="startSurvey()">参与问卷调查解锁下载 🎁</button>
+            <button class="open-survey-btn" onclick="startChatSurvey()">开始互动匹配对话 💬</button>
             
             <!-- Interactive Engagement Hub -->
             <div class="interactive-hub">
@@ -610,7 +672,7 @@
                     <span>✨ 用户 [张***] 刚刚成功匹配到同城心仪对象</span>
                 </div>
                 <div style="font-size: 12px; color: #6b7280; text-align: center; margin-top: 5px;">
-                    完成下方问卷可提升 98% 匹配成功率
+                    完成下方互动对话可提升 98% 匹配成功率
                 </div>
             </div>
 
@@ -708,20 +770,31 @@
             </div>
         </div>
 
-        <!-- Survey Modal -->
+        <!-- Live Messaging Chat Survey Modal -->
         <div class="survey-overlay" id="surveyOverlay">
             <div class="survey-modal">
-                <button class="survey-close" onclick="closeSurvey()">&times;</button>
-                
-                <div id="questionWrapper">
-                    <div class="survey-progress" id="surveyProgress">问题 1 / 6</div>
-                    <h3 id="surveyQuestion">加载中...</h3>
-                    <div id="surveyContentContainer"></div>
+                <div class="chat-header">
+                    <div class="chat-agent-info">
+                        <img class="chat-avatar" src="https://i.ibb.co/bS3QcVr/photo-2026-10-28-01-22-47.jpg" alt="Agent">
+                        <div class="chat-name-status">
+                            <h4>专属匹配助手</h4>
+                            <span>在线为您推荐</span>
+                        </div>
+                    </div>
+                    <button class="survey-close" onclick="closeSurvey()">&times;</button>
                 </div>
 
-                <div class="survey-loading" id="surveyLoading">
-                    <div class="spinner"></div>
-                    <p>正在匹配分析您的偏好 (<span id="countdown">3</span>s)...</p>
+                <div class="chat-body" id="chatBody">
+                    <!-- Messages appended dynamically -->
+                    <div class="typing-indicator" id="typingIndicator">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+
+                <div class="chat-footer" id="chatFooter">
+                    <!-- Options appended dynamically -->
                 </div>
             </div>
         </div>
@@ -792,7 +865,7 @@
 
         const questions = [
             {
-                q: "1. 你更偏好哪种体型？",
+                q: "你好呀！很高兴认识你 😊 为了帮你快速匹配到合心意的人，先告诉我：你更偏好哪种体型呢？",
                 type: "image",
                 options: [
                     { text: "中等尺寸", img: "https://i.ibb.co/wrwcqNdb/photo-2026-10-09-19-36-53-4.jpg" },
@@ -800,17 +873,17 @@
                 ]
             },
             {
-                q: "2. 你超过23岁吗？",
+                q: "收到！那第二个问题：你超过23岁了吗？",
                 type: "text",
                 options: ["是的 我已年满23岁", "不，我不是"]
             },
             {
-                q: "3. 你想找什么类型的女孩约会？",
+                q: "好的，了解啦。你想找什么类型的女孩约会呢？",
                 type: "text",
                 options: ["羞怯而娇小的身躯", "身材发育良好的女孩", "一个胸部丰满的女孩"]
             },
             {
-                q: "4. 你想操哪个逼？",
+                q: "看着这些照片，你对哪一位更有好感呢？",
                 type: "image",
                 options: [
                     { text: "这个", img: "https://i.ibb.co/XxcygqBc/photo-2026-08-30-13-15-05.jpg" },
@@ -818,12 +891,12 @@
                 ]
             },
             {
-                q: "5. 你会带那个女孩去个好地方，比如酒店吗？",
+                q: "太棒了！约会时你会带那个女孩去个好地方，比如舒适的酒店吗？",
                 type: "text",
                 options: ["是的，我会的", "不，我不会"]
             },
             {
-                q: "6. 你在哪里找到这个约会平台的？",
+                q: "最后一个问题：你在哪里找到这个约会平台的呀？",
                 type: "text",
                 options: ["来自人工智能", "来自网页浏览", "好友建议"]
             }
@@ -832,59 +905,75 @@
         let currentQuestionIndex = 0;
         let isSurveyCompleted = false;
 
-        function startSurvey() {
+        function startChatSurvey() {
             currentQuestionIndex = 0;
+            document.getElementById('chatBody').innerHTML = `
+                <div class="typing-indicator" id="typingIndicator" style="display: flex;">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            `;
+            document.getElementById('chatFooter').innerHTML = "";
             document.getElementById('surveyOverlay').style.display = 'flex';
-            renderQuestion();
+            
+            setTimeout(() => {
+                showNextQuestion();
+            }, 1000);
         }
 
         function closeSurvey() {
             document.getElementById('surveyOverlay').style.display = 'none';
         }
 
-        function renderQuestion() {
-            document.getElementById('surveyLoading').style.display = 'none';
-            document.getElementById('questionWrapper').style.display = 'block';
+        function showNextQuestion() {
+            const chatBody = document.getElementById('chatBody');
+            const typingInd = document.getElementById('typingIndicator');
+            if (typingInd) typingInd.style.display = 'none';
 
             if (currentQuestionIndex < questions.length) {
                 const currentQ = questions[currentQuestionIndex];
-                document.getElementById('surveyProgress').innerText = `问题 ${currentQuestionIndex + 1} / ${questions.length}`;
-                document.getElementById('surveyQuestion').innerText = currentQ.q;
                 
-                const container = document.getElementById('surveyContentContainer');
-                container.innerHTML = "";
-                
+                // Append agent message
+                const agentBubble = document.createElement('div');
+                agentBubble.className = 'chat-bubble agent';
+                agentBubble.innerText = currentQ.q;
+                chatBody.appendChild(agentBubble);
+                chatBody.scrollTop = chatBody.scrollHeight;
+
+                // Render options in footer
+                const chatFooter = document.getElementById('chatFooter');
+                chatFooter.innerHTML = "";
+
                 if (currentQ.type === "image") {
                     const gridDiv = document.createElement('div');
-                    gridDiv.className = 'survey-options-grid';
-                    
+                    gridDiv.className = 'chat-options-grid';
                     currentQ.options.forEach(opt => {
                         const card = document.createElement('div');
-                        card.className = 'survey-image-card';
+                        card.className = 'chat-image-card';
                         card.innerHTML = `
                             <img src="${opt.img}" alt="${opt.text}">
                             <span>${opt.text}</span>
                         `;
                         card.onclick = function() {
-                            handleAnswer();
+                            handleUserAnswer(opt.text);
                         };
                         gridDiv.appendChild(card);
                     });
-                    container.appendChild(gridDiv);
+                    chatFooter.appendChild(gridDiv);
                 } else {
                     const optionsDiv = document.createElement('div');
-                    optionsDiv.className = 'survey-options';
-                    
+                    optionsDiv.className = 'chat-options-container';
                     currentQ.options.forEach(optionText => {
                         const btn = document.createElement('button');
-                        btn.className = 'survey-option-btn';
+                        btn.className = 'chat-option-btn';
                         btn.innerText = optionText;
                         btn.onclick = function() {
-                            handleAnswer();
+                            handleUserAnswer(optionText);
                         };
                         optionsDiv.appendChild(btn);
                     });
-                    container.appendChild(optionsDiv);
+                    chatFooter.appendChild(optionsDiv);
                 }
             } else {
                 isSurveyCompleted = true;
@@ -893,40 +982,51 @@
                 downloadBtn.classList.remove('locked');
                 downloadBtn.innerText = "已预约，我们将联系您进行应用安装";
 
-                const modal = document.querySelector('.survey-modal');
-                modal.innerHTML = `
-                    <button class="survey-close" onclick="closeSurvey()">&times;</button>
-                    <div class="survey-progress" style="color: #07c160;">完成</div>
-                    <h3 style="text-align: center; margin: 20px 0;">🎉 感谢您的参与！</h3>
-                    <p style="text-align: center; font-size: 14px; color: #333; font-weight: bold; margin-bottom: 20px;">已预约，我们将联系您进行应用安装</p>
-                    <button class="download-btn" onclick="closeSurvey()" style="margin-bottom:0;">确定</button>
+                const chatFooter = document.getElementById('chatFooter');
+                chatFooter.innerHTML = `
+                    <button class="download-btn" onclick="closeSurvey()" style="margin-bottom:0;">🎉 匹配完成，点击确认</button>
                 `;
+
+                const finalBubble = document.createElement('div');
+                finalBubble.className = 'chat-bubble agent';
+                finalBubble.innerHTML = "<b>🎉 太棒了！您的偏好已全部记录。</b><br>已成功预约，我们将联系您进行应用安装！";
+                chatBody.appendChild(finalBubble);
+                chatBody.scrollTop = chatBody.scrollHeight;
             }
         }
 
-        function handleAnswer() {
-            document.getElementById('questionWrapper').style.display = 'none';
-            document.getElementById('surveyLoading').style.display = 'block';
+        function handleUserAnswer(answerText) {
+            const chatBody = document.getElementById('chatBody');
+            const chatFooter = document.getElementById('chatFooter');
+            
+            // Append user reply bubble
+            const userBubble = document.createElement('div');
+            userBubble.className = 'chat-bubble user';
+            userBubble.innerText = answerText;
+            chatBody.appendChild(userBubble);
+            chatBody.scrollTop = chatBody.scrollHeight;
 
-            let timeLeft = 3; 
-            document.getElementById('countdown').innerText = timeLeft;
+            // Clear options and show typing indicator
+            chatFooter.innerHTML = `
+                <div class="typing-indicator" id="typingIndicator" style="display: flex;">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            `;
 
-            let timer = setInterval(function() {
-                timeLeft--;
-                document.getElementById('countdown').innerText = timeLeft;
-                if (timeLeft <= 0) {
-                    clearInterval(timer);
-                    currentQuestionIndex++;
-                    renderQuestion();
-                }
-            }, 1000);
+            currentQuestionIndex++;
+
+            setTimeout(() => {
+                showNextQuestion();
+            }, 1200);
         }
 
         function handleDownloadClick() {
             if (isSurveyCompleted) {
                 alert("已预约，我们将联系您进行应用安装");
             } else {
-                startSurvey();
+                startChatSurvey();
             }
         }
 
@@ -935,7 +1035,7 @@
                 document.getElementById('wechatOverlay').style.display = 'block';
             } else {
                 setTimeout(function() {
-                    startSurvey();
+                    startChatSurvey();
                 }, 3000);
             }
         }
