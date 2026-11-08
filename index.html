@@ -197,7 +197,7 @@
             letter-spacing: -0.3px;
         }
         
-        /* Page Video Task Section */
+        /* Page UI Video Task Section */
         .page-video-section {
             background: #ffffff;
             border: 2px dashed #ffcbd5;
@@ -232,6 +232,38 @@
             color: #4b5563;
             margin-top: 8px;
             font-weight: 600;
+        }
+
+        /* Viral Share Section */
+        .viral-share-box {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 25px;
+            text-align: center;
+            display: none;
+        }
+        .viral-share-box h4 {
+            font-size: 14px;
+            color: #166534;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        .share-btn {
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
+            transition: background 0.2s;
+        }
+        .share-btn:hover {
+            background: #16a34a;
         }
 
         .interactive-hub {
@@ -683,9 +715,9 @@
             <h1>尽情狂欢，直到天亮</h1>
             <p class="subtitle">同城快速匹配，马上认识身边的TA</p>
             
-            <!-- Online Status Indicator -->
+            <!-- Online Status Indicator with Real-time Live Fluctuation -->
             <div class="online-badge">
-                <span class="pulse-dot"></span> <span>当前 3,842 人在线匹配中</span>
+                <span class="pulse-dot"></span> <span id="onlineCountText">当前 3,842 人在线匹配中</span>
             </div>
             
             <!-- Download Button -->
@@ -702,6 +734,12 @@
                     <iframe src="https://streamable.com/e/e7bm1v?autoplay=1&muted=1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
                 </div>
                 <div class="video-task-status" id="videoTaskStatus">⏳ 正在统计观看时间... (还剩 10 秒)</div>
+            </div>
+
+            <!-- Viral Share Section (Appears after video task completed) -->
+            <div class="viral-share-box" id="viralShareBox">
+                <h4>🎁 恭喜解锁高级特权！分享给好友可享加速安装</h4>
+                <button class="share-btn" onclick="shareToFriends()">📤 立即分享给好友</button>
             </div>
 
             <!-- Interactive Engagement Hub -->
@@ -864,7 +902,7 @@
             return ua.indexOf('micromessenger') !== -1;
         }
 
-        // Low speed auto-sliding screenshots logic
+        // Low speed auto-sliding screenshots logic & Real-time Live Fluctuation
         window.addEventListener('DOMContentLoaded', () => {
             const slider = document.getElementById('screenshotsSlider');
             const scrollStep = 1; 
@@ -899,6 +937,15 @@
                 const ticker = document.getElementById('activityTicker');
                 if(ticker) ticker.innerHTML = `<span>${activities[actIndex]}</span>`;
             }, 4000);
+
+            // Real-time Live Online Visitor Fluctuation simulation
+            let baseOnline = 3842;
+            setInterval(() => {
+                const diff = Math.floor(Math.random() * 9) - 4; // -4 to +4
+                baseOnline += diff;
+                const onlineText = document.getElementById('onlineCountText');
+                if(onlineText) onlineText.innerText = `当前 ${baseOnline.toLocaleString()} 人在线匹配中`;
+            }, 5000);
         });
 
         const questions = [
@@ -1016,12 +1063,10 @@
                 isChatCompleted = true;
                 closeSurvey(); // Close chat modal automatically
 
-                // Show page UI video task section and start timer
                 const videoSection = document.getElementById('pageVideoSection');
                 videoSection.style.display = 'block';
                 videoSection.scrollIntoView({ behavior: 'smooth' });
 
-                // Update trigger button text
                 document.getElementById('surveyTriggerBtn').innerText = "✅ 互动对话已完成，请观看下方视频任务";
                 document.getElementById('surveyTriggerBtn').style.background = "#e5e7eb";
                 document.getElementById('surveyTriggerBtn').style.color = "#4b5563";
@@ -1058,7 +1103,7 @@
         }
 
         function startVideoTaskTimer() {
-            let timeLeft = 12; // 12 seconds video watch task timer
+            let timeLeft = 12; 
             const statusEl = document.getElementById('videoTaskStatus');
             
             let timer = setInterval(() => {
@@ -1071,12 +1116,28 @@
                     statusEl.innerHTML = `🎉 视频观看任务已完成！`;
                     statusEl.style.color = "#059669";
 
-                    // Unlock download button
+                    // Show viral share box
+                    document.getElementById('viralShareBox').style.display = 'block';
+
                     const downloadBtn = document.getElementById('downloadBtn');
                     downloadBtn.classList.remove('locked');
                     downloadBtn.innerText = "已完成所有任务，点击立即安装应用";
                 }
             }, 1000);
+        }
+
+        function shareToFriends() {
+            if (navigator.share) {
+                navigator.share({
+                    title: '同城约会匹配',
+                    text: '快来加入同城快速匹配，认识身边的TA！',
+                    url: window.location.href
+                }).then(() => {
+                    alert("分享成功！已为您加速安装通道。");
+                }).catch(() => {});
+            } else {
+                alert("分享链接已复制，快去发给好友吧！");
+            }
         }
 
         function handleDownloadClick() {
