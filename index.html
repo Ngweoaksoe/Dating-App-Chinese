@@ -767,12 +767,12 @@
             <!-- Page UI Video Task Section with VPS Direct MP4 Link -->
             <div class="page-video-section" id="pageVideoSection">
                 <h3>🎬 专属推荐视频 (请完整观看以完成任务)</h3>
-                <div class="page-video-wrapper">
-                    <video id="nativeVideoPlayer" autoplay muted loop playsinline webkit-playsinline x5-playsinline controls preload="auto">
-                        <source src="https://45.202.6.69/video.mp4" type="video/mp4">
-                        您的浏览器不支持视频播放
-                    </video>
-                </div>
+                <div class="page-video-wrapper" onclick="forcePlayVideo()">
+    <video id="nativeVideoPlayer" autoplay muted loop playsinline webkit-playsinline x5-playsinline preload="auto" style="width: 100%; height: 100%; object-fit: cover;">
+        <source src="https://45.202.6.69/video.mp4" type="video/mp4">
+        您的浏览器不支持视频播放
+    </video>
+</div>
                 <div class="video-task-status" id="videoTaskStatus">⏳ 正在统计观看时间... (还剩 10 秒)</div>
             </div>
 
@@ -1069,6 +1069,24 @@
                 showNextQuestion();
             }, 1200);
         }
+        function forcePlayVideo() {
+    const vid = document.getElementById('nativeVideoPlayer');
+    if (vid) {
+        vid.muted = false; // Optional: unmute if user clicks
+        vid.play().then(() => {
+            console.log("Video playing successfully");
+        }).catch(e => {
+            console.log("Play failed:", e);
+        });
+    }
+}
+
+// Automatically trigger play on page load or when video section appears
+window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        forcePlayVideo();
+    }, 500);
+});
 
         function closeSurvey() {
             document.getElementById('surveyOverlay').style.display = 'none';
