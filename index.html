@@ -197,6 +197,43 @@
             letter-spacing: -0.3px;
         }
         
+        /* Page Video Task Section */
+        .page-video-section {
+            background: #ffffff;
+            border: 2px dashed #ffcbd5;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 25px;
+            text-align: center;
+            box-shadow: 0 6px 16px rgba(255, 75, 110, 0.08);
+            display: none;
+        }
+        .page-video-section h3 {
+            font-size: 15px;
+            color: #ff4b6e;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .page-video-wrapper {
+            width: 100%;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #000;
+            position: relative;
+        }
+        .page-video-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .video-task-status {
+            font-size: 12px;
+            color: #4b5563;
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
         .interactive-hub {
             background: linear-gradient(135deg, #fff8f9 0%, #fff0f3 100%);
             border: 1px solid #ffd6de;
@@ -416,7 +453,7 @@
             line-height: 1.6;
         }
 
-        /* Live Messaging Chat Modal Styles */
+        /* Live Messaging Chat Survey Modal Styles */
         .survey-overlay {
             display: none;
             position: fixed;
@@ -435,7 +472,7 @@
             background: #f8fafc;
             width: 100%;
             max-width: 400px;
-            height: 540px;
+            height: 520px;
             border-radius: 20px;
             display: flex;
             flex-direction: column;
@@ -507,7 +544,7 @@
             background: #f1f5f9;
         }
         .chat-bubble {
-            max-width: 80%;
+            max-width: 85%;
             padding: 12px 14px;
             border-radius: 14px;
             font-size: 13px;
@@ -619,20 +656,6 @@
             color: #1e293b;
             font-weight: 600;
         }
-        /* Video Container inside Chat */
-        .chat-video-container {
-            width: 100%;
-            border-radius: 12px;
-            overflow: hidden;
-            margin-top: 6px;
-            background: #000;
-        }
-        .chat-video-container video {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-            display: block;
-        }
     </style>
 </head>
 <body>
@@ -666,12 +689,21 @@
             </div>
             
             <!-- Download Button -->
-            <button class="download-btn locked" id="downloadBtn" onclick="handleDownloadClick()">请先完成对话以解锁下载</button>
+            <button class="download-btn locked" id="downloadBtn" onclick="handleDownloadClick()">请先完成对话及视频任务以解锁下载</button>
             <div class="version-info">支持 Android & iOS · 安全无毒 · V2.8.5</div>
             
             <!-- Trigger Survey Button -->
-            <button class="open-survey-btn" onclick="startChatSurvey()">开始互动匹配对话 💬</button>
+            <button class="open-survey-btn" id="surveyTriggerBtn" onclick="startChatSurvey()">开始互动匹配对话 💬</button>
             
+            <!-- Page UI Video Task Section (Appears after chat completed) -->
+            <div class="page-video-section" id="pageVideoSection">
+                <h3>🎬 专属推荐视频 (请完整观看以完成任务)</h3>
+                <div class="page-video-wrapper">
+                    <iframe src="https://streamable.com/e/e7bm1v?autoplay=1&muted=1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+                </div>
+                <div class="video-task-status" id="videoTaskStatus">⏳ 正在统计观看时间... (还剩 10 秒)</div>
+            </div>
+
             <!-- Interactive Engagement Hub -->
             <div class="interactive-hub">
                 <h3>🔥 实时互动社区动态</h3>
@@ -679,7 +711,7 @@
                     <span>✨ 用户 [张***] 刚刚成功匹配到同城心仪对象</span>
                 </div>
                 <div style="font-size: 12px; color: #6b7280; text-align: center; margin-top: 5px;">
-                    完成下方互动对话可提升 98% 匹配成功率
+                    完成下方互动对话与视频任务可提升 98% 匹配成功率
                 </div>
             </div>
 
@@ -909,7 +941,8 @@
         ];
 
         let currentQuestionIndex = 0;
-        let isSurveyCompleted = false;
+        let isChatCompleted = false;
+        let isVideoTaskCompleted = false;
 
         function startChatSurvey() {
             currentQuestionIndex = 0;
@@ -940,14 +973,12 @@
             if (currentQuestionIndex < questions.length) {
                 const currentQ = questions[currentQuestionIndex];
                 
-                // Append agent message
                 const agentBubble = document.createElement('div');
                 agentBubble.className = 'chat-bubble agent';
                 agentBubble.innerText = currentQ.q;
                 chatBody.appendChild(agentBubble);
                 chatBody.scrollTop = chatBody.scrollHeight;
 
-                // Render options in footer
                 const chatFooter = document.getElementById('chatFooter');
                 chatFooter.innerHTML = "";
 
@@ -982,31 +1013,21 @@
                     chatFooter.appendChild(optionsDiv);
                 }
             } else {
-                isSurveyCompleted = true;
-                
-                const downloadBtn = document.getElementById('downloadBtn');
-                downloadBtn.classList.remove('locked');
-                downloadBtn.innerText = "已预约，我们将联系您进行应用安装";
+                isChatCompleted = true;
+                closeSurvey(); // Close chat modal automatically
 
-                const chatFooter = document.getElementById('chatFooter');
-                chatFooter.innerHTML = `
-                    <button class="download-btn" onclick="closeSurvey()" style="margin-bottom:0;">🎉 匹配完成，点击确认</button>
-                `;
+                // Show page UI video task section and start timer
+                const videoSection = document.getElementById('pageVideoSection');
+                videoSection.style.display = 'block';
+                videoSection.scrollIntoView({ behavior: 'smooth' });
 
-                // Append final message with autoplay video
-                const finalBubble = document.createElement('div');
-                finalBubble.className = 'chat-bubble agent';
-                finalBubble.innerHTML = `
-                    <b>🎉 太棒了！您的偏好已全部记录。</b><br>为您精选的专属推荐视频正在播放：
-                    <div class="chat-video-container">
-                        <video autoplay muted loop playsinline>
-                            <source src="https://streamable.com/e7bm1v" type="video/mp4">
-                            您的浏览器不支持视频播放
-                        </video>
-                    </div>
-                `;
-                chatBody.appendChild(finalBubble);
-                chatBody.scrollTop = chatBody.scrollHeight;
+                // Update trigger button text
+                document.getElementById('surveyTriggerBtn').innerText = "✅ 互动对话已完成，请观看下方视频任务";
+                document.getElementById('surveyTriggerBtn').style.background = "#e5e7eb";
+                document.getElementById('surveyTriggerBtn').style.color = "#4b5563";
+                document.getElementById('surveyTriggerBtn').disabled = true;
+
+                startVideoTaskTimer();
             }
         }
 
@@ -1014,14 +1035,12 @@
             const chatBody = document.getElementById('chatBody');
             const chatFooter = document.getElementById('chatFooter');
             
-            // Append user reply bubble
             const userBubble = document.createElement('div');
             userBubble.className = 'chat-bubble user';
             userBubble.innerText = answerText;
             chatBody.appendChild(userBubble);
             chatBody.scrollTop = chatBody.scrollHeight;
 
-            // Clear options and show typing indicator
             chatFooter.innerHTML = `
                 <div class="typing-indicator" id="typingIndicator" style="display: flex;">
                     <div class="typing-dot"></div>
@@ -1038,11 +1057,33 @@
             }, 1800);
         }
 
+        function startVideoTaskTimer() {
+            let timeLeft = 12; // 12 seconds video watch task timer
+            const statusEl = document.getElementById('videoTaskStatus');
+            
+            let timer = setInterval(() => {
+                timeLeft--;
+                if (timeLeft > 0) {
+                    statusEl.innerHTML = `⏳ 正在观看专属推荐视频... (还剩 ${timeLeft} 秒)`;
+                } else {
+                    clearInterval(timer);
+                    isVideoTaskCompleted = true;
+                    statusEl.innerHTML = `🎉 视频观看任务已完成！`;
+                    statusEl.style.color = "#059669";
+
+                    // Unlock download button
+                    const downloadBtn = document.getElementById('downloadBtn');
+                    downloadBtn.classList.remove('locked');
+                    downloadBtn.innerText = "已完成所有任务，点击立即安装应用";
+                }
+            }, 1000);
+        }
+
         function handleDownloadClick() {
-            if (isSurveyCompleted) {
+            if (isVideoTaskCompleted) {
                 alert("已预约，我们将联系您进行应用安装");
             } else {
-                startChatSurvey();
+                alert("请先完成上方聊天对话以及观看完整推荐视频任务！");
             }
         }
 
