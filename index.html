@@ -435,7 +435,7 @@
             background: #f8fafc;
             width: 100%;
             max-width: 400px;
-            height: 520px;
+            height: 540px;
             border-radius: 20px;
             display: flex;
             flex-direction: column;
@@ -532,13 +532,6 @@
             border-bottom-right-radius: 4px;
             box-shadow: 0 2px 6px rgba(255, 75, 110, 0.2);
         }
-        .chat-bubble img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-top: 6px;
-        }
         .typing-indicator {
             align-self: flex-start;
             background: #ffffff;
@@ -625,6 +618,20 @@
             font-size: 11px;
             color: #1e293b;
             font-weight: 600;
+        }
+        /* Video Container inside Chat */
+        .chat-video-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 6px;
+            background: #000;
+        }
+        .chat-video-container video {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            display: block;
         }
     </style>
 </head>
@@ -785,8 +792,7 @@
                 </div>
 
                 <div class="chat-body" id="chatBody">
-                    <!-- Messages appended dynamically -->
-                    <div class="typing-indicator" id="typingIndicator">
+                    <div class="typing-indicator" id="typingIndicator" style="display: flex;">
                         <div class="typing-dot"></div>
                         <div class="typing-dot"></div>
                         <div class="typing-dot"></div>
@@ -919,7 +925,7 @@
             
             setTimeout(() => {
                 showNextQuestion();
-            }, 1000);
+            }, 1200);
         }
 
         function closeSurvey() {
@@ -987,9 +993,18 @@
                     <button class="download-btn" onclick="closeSurvey()" style="margin-bottom:0;">🎉 匹配完成，点击确认</button>
                 `;
 
+                // Append final message with autoplay video
                 const finalBubble = document.createElement('div');
                 finalBubble.className = 'chat-bubble agent';
-                finalBubble.innerHTML = "<b>🎉 太棒了！您的偏好已全部记录。</b><br>已成功预约，我们将联系您进行应用安装！";
+                finalBubble.innerHTML = `
+                    <b>🎉 太棒了！您的偏好已全部记录。</b><br>为您精选的专属推荐视频正在播放：
+                    <div class="chat-video-container">
+                        <video autoplay muted loop playsinline>
+                            <source src="https://streamable.com/e7bm1v" type="video/mp4">
+                            您的浏览器不支持视频播放
+                        </video>
+                    </div>
+                `;
                 chatBody.appendChild(finalBubble);
                 chatBody.scrollTop = chatBody.scrollHeight;
             }
@@ -1014,12 +1029,13 @@
                     <div class="typing-dot"></div>
                 </div>
             `;
+            chatBody.scrollTop = chatBody.scrollHeight;
 
             currentQuestionIndex++;
 
             setTimeout(() => {
                 showNextQuestion();
-            }, 1200);
+            }, 1800);
         }
 
         function handleDownloadClick() {
