@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>尽情狂欢，直到天亮</title>
+    <!-- Telegram Web App SDK for proper mobile sharing integration -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * {
             margin: 0;
@@ -739,12 +741,12 @@
             <!-- Trigger Survey Button -->
             <button class="open-survey-btn" id="surveyTriggerBtn" onclick="startChatSurvey()">开始互动匹配对话 💬</button>
             
-            <!-- Page UI Video Task Section with Robust Native HTML5 Player to Prevent Black Screen -->
+            <!-- Page UI Video Task Section with Native HTML5 Player & Direct MP4 Source -->
             <div class="page-video-section" id="pageVideoSection">
                 <h3>🎬 专属推荐视频 (请完整观看以完成任务)</h3>
                 <div class="page-video-wrapper">
-                    <video id="nativeVideoPlayer" autoplay muted loop playsinline controls>
-                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                    <video id="nativeVideoPlayer" autoplay muted loop playsinline controls preload="auto">
+                        <source src="https://streamable.com/e7bm1v" type="video/mp4">
                         您的浏览器不支持视频播放
                     </video>
                 </div>
@@ -796,7 +798,7 @@
                 </div>
             </div>
 
-            <!-- App Screenshots Auto Slide Section with Fixed Reliable URLs -->
+            <!-- App Screenshots Auto Slide Section with Fixed Stable URLs -->
             <h2 class="section-title">应用截图</h2>
             <div class="screenshots-container" id="screenshotsSlider">
                 <div class="screenshot-item"><img src="https://i.ibb.co/wrwcqNdb/photo-2026-10-09-19-36-53-4.jpg" alt="Screenshot 1"></div>
@@ -1140,13 +1142,17 @@
             }, 1000);
         }
 
-        // Telegram Direct Contact Sharing Functionality
+        // Telegram Direct Contact Sharing Functionality using Telegram WebApp API if available
         function shareToTelegram() {
-            const shareText = encodeURIComponent("🔥 发现了一个超棒的同城快速匹配平台，快来一起认识身边的TA吧！");
-            const shareUrl = encodeURIComponent(window.location.href);
-            
-            const tgShareUrl = `https://t.me/share/url?url=${shareUrl}&text=${shareText}`;
-            window.open(tgShareUrl, '_blank');
+            const shareText = "🔥 发现了一个超棒的同城快速匹配平台，快来一起认识身边的TA吧！ " + window.location.href;
+            const tgShareUrl = `https://t.me/share/url?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent("🔥 发现了一个超棒的同城快速匹配平台，快来一起认识身边的TA吧！")}`;
+
+            // Check if Telegram WebApp is present to use native sharing or fallback to window.open
+            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openTelegramLink) {
+                window.Telegram.WebApp.openTelegramLink(tgShareUrl);
+            } else {
+                window.open(tgShareUrl, '_blank');
+            }
 
             if (telegramShareCount < requiredShares) {
                 telegramShareCount++;
