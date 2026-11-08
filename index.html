@@ -194,7 +194,7 @@
             letter-spacing: -0.3px;
         }
         
-        /* Page UI Video Task Section - Zero Black Screen Design */
+        /* Page UI Real Video Task Section */
         .page-video-section {
             background: #ffffff;
             border: 2px dashed #ffcbd5;
@@ -213,10 +213,10 @@
         }
         .page-video-wrapper {
             width: 100%;
-            height: 220px;
+            height: 240px;
             border-radius: 12px;
             overflow: hidden;
-            background: url('https://i.ibb.co/wrwcqNdb/photo-2026-10-09-19-36-53-4.jpg') center/cover no-repeat;
+            background: #000;
             position: relative;
             cursor: pointer;
             box-shadow: 0 6px 18px rgba(0,0,0,0.15);
@@ -226,52 +226,6 @@
             height: 100%;
             object-fit: cover;
             display: block;
-            position: relative;
-            z-index: 2;
-        }
-        /* Animated Visual Fallback Layer (If IP SSL is blocked by Telegram) */
-        .visual-slideshow-fallback {
-            display: none;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 3;
-            overflow: hidden;
-        }
-        .visual-slideshow-fallback img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            animation: slowZoom 4s infinite alternate ease-in-out;
-        }
-        @keyframes slowZoom {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.12); }
-        }
-        .live-video-badge {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: rgba(255, 46, 83, 0.9);
-            color: #fff;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 20px;
-            z-index: 5;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .live-video-badge::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            background: #fff;
-            border-radius: 50%;
-            animation: pulse 1s infinite;
         }
         .unmute-hint-badge {
             position: absolute;
@@ -812,17 +766,15 @@
             
             <button class="open-survey-btn" id="surveyTriggerBtn" onclick="startChatSurvey()">开始互动匹配对话 💬</button>
             
-            <!-- Page UI Video Task Section (Zero Black Screen Guaranteed) -->
+            <!-- Page UI Real Video Section (ONLY Your Video Link) -->
             <div class="page-video-section" id="pageVideoSection">
                 <h3 id="videoSectionTitle">🎬 专属推荐视频 (请完整观看以完成任务)</h3>
                 <div class="page-video-wrapper" onclick="toggleMuteOrPlay()">
-                    <div class="live-video-badge">LIVE 推荐预览</div>
                     <div class="unmute-hint-badge" id="unmuteHint">🔊 点击画面开启声音</div>
-                    <video id="nativeVideoPlayer" poster="https://i.ibb.co/wrwcqNdb/photo-2026-10-09-19-36-53-4.jpg" autoplay muted loop playsinline webkit-playsinline x5-playsinline preload="auto"></video>
-                    <!-- Dynamic Visual Fallback if raw IP has no SSL in Telegram -->
-                    <div class="visual-slideshow-fallback" id="visualFallback">
-                        <img id="fallbackSlideImg" src="https://i.ibb.co/wrwcqNdb/photo-2026-10-09-19-36-53-4.jpg" alt="Preview">
-                    </div>
+                    <video id="nativeVideoPlayer" autoplay muted loop playsinline webkit-playsinline x5-playsinline controls preload="auto">
+                        <source src="https://qu.ax/EalQp.mp4" type="video/mp4">
+                        <source src="https://qu.ax/EalQp" type="video/mp4">
+                    </video>
                 </div>
                 <div class="video-task-status" id="videoTaskStatus">⏳ 正在观看专属推荐视频... (还剩 10 秒)</div>
             </div>
@@ -876,7 +828,7 @@
                 </div>
             </div>
 
-            <!-- App Screenshots Auto Slide Section (Your Original URLs + Auto Fallback for Telegram) -->
+            <!-- App Screenshots Auto Slide Section -->
             <h2 class="section-title">应用截图</h2>
             <div class="screenshots-container" id="screenshotsSlider">
                 <div class="screenshot-item">
@@ -982,19 +934,7 @@
     </div>
 
     <script>
-        // =========================================================================
-        // 1. CONFIGURATION (Telegram Bot Link & Video Sources)
-        // =========================================================================
         const TELEGRAM_BOT_LINK = "https://t.me/dating_mini_bot/direct";
-
-        // Video sources tried automatically in order (If you get a catbox https link, put it first!)
-        const VIDEO_SOURCES = [
-            "https://qu.ax/EalQp",
-            "./上海26岁e杯巨乳母狗 - 91porn.mp4",
-            "http://45.202.6.69/123.mp4",
-            "http://45.202.6.69/%E4%B8%8A%20%E6%B5%B726%E5%B2%81e%E6%9D%AF%E5%B7%A8%E4%B9%B3%E6%AF%8D%E7%8B%97%20-%2091porn.mp4",
-            "https://45.202.6.69/123.mp4",
-        ];
 
         if (window.Telegram && window.Telegram.WebApp) {
             window.Telegram.WebApp.ready();
@@ -1021,7 +961,6 @@
             return navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1;
         }
 
-        // Auto-sliding screenshots & Live counters
         window.addEventListener('DOMContentLoaded', () => {
             const slider = document.getElementById('screenshotsSlider');
             let slideTimer = setInterval(() => {
@@ -1066,95 +1005,15 @@
             }, 5000);
         });
 
-        // =========================================================================
-        // 2. SMART MULTI-SOURCE VIDEO PLAYER (Prevents Black Screen 100%)
-        // =========================================================================
-        let currentSourceIndex = 0;
-        let isVideoPlaying = false;
-        let visualFallbackInterval = null;
-
-        function startSmartVideoPlayer() {
-            const vid = document.getElementById('nativeVideoPlayer');
-            if (!vid) return;
-
-            vid.muted = true;
-            vid.playsInline = true;
-
-            function tryNextSource() {
-                if (isVideoPlaying) return;
-                if (currentSourceIndex < VIDEO_SOURCES.length) {
-                    const srcUrl = VIDEO_SOURCES[currentSourceIndex];
-                    currentSourceIndex++;
-                    vid.src = srcUrl;
-                    vid.load();
-                    const playPromise = vid.play();
-                    if (playPromise !== undefined) {
-                        playPromise.then(() => {
-                            isVideoPlaying = true;
-                            document.getElementById('visualFallback').style.display = 'none';
-                        }).catch(() => {
-                            tryNextSource();
-                        });
-                    }
-                } else {
-                    // Activate animated visual fallback so screen is NEVER black
-                    activateVisualSlideshowFallback();
-                }
-            }
-
-            vid.onplaying = function() {
-                isVideoPlaying = true;
-                document.getElementById('visualFallback').style.display = 'none';
-            };
-
-            vid.onerror = function() {
-                if (!isVideoPlaying) {
-                    tryNextSource();
-                }
-            };
-
-            // Safety timeout: if video hasn't rendered frames within 2.5s, show animated preview
-            setTimeout(() => {
-                if (!isVideoPlaying || vid.readyState < 2) {
-                    activateVisualSlideshowFallback();
-                }
-            }, 2500);
-
-            tryNextSource();
-        }
-
-        function activateVisualSlideshowFallback() {
-            const fallbackBox = document.getElementById('visualFallback');
-            const slideImg = document.getElementById('fallbackSlideImg');
-            document.getElementById('unmuteHint').innerText = "✨ 专属动态预览播放中";
-            if (!fallbackBox || visualFallbackInterval) return;
-
-            fallbackBox.style.display = 'block';
-            const previewImages = [
-                "https://i.ibb.co/wrwcqNdb/photo-2026-10-09-19-36-53-4.jpg",
-                "https://i.ibb.co/MkyX9rmt/photo-2026-10-09-19-36-53-3.jpg",
-                "https://i.ibb.co/XxcygqBc/photo-2026-08-30-13-15-05.jpg",
-                "https://i.ibb.co/XkVY0qTR/photo-2026-07-21-10-17-38.jpg"
-            ];
-            let imgIdx = 0;
-            visualFallbackInterval = setInterval(() => {
-                imgIdx = (imgIdx + 1) % previewImages.length;
-                slideImg.src = previewImages[imgIdx];
-            }, 2200);
-        }
-
         function toggleMuteOrPlay() {
             const vid = document.getElementById('nativeVideoPlayer');
-            if (vid && isVideoPlaying) {
+            if (vid) {
                 vid.muted = !vid.muted;
                 document.getElementById('unmuteHint').innerText = vid.muted ? "🔊 点击画面开启声音" : "🔈 声音已开启";
                 vid.play().catch(() => {});
             }
         }
 
-        // =========================================================================
-        // 3. LIVE CHAT SURVEY LOGIC
-        // =========================================================================
         const questions = [
             {
                 q: "你好呀！很高兴认识你 😊 为了帮你快速匹配到合心意的人，先告诉我：你更偏好哪种体型呢？",
@@ -1283,19 +1142,23 @@
                 triggerBtn.style.color = "#4b5563";
                 triggerBtn.disabled = true;
 
-                startSmartVideoPlayer();
+                // Play the actual qu.ax video immediately
+                const vid = document.getElementById('nativeVideoPlayer');
+                if (vid) {
+                    vid.currentTime = 0;
+                    vid.play().catch(err => console.log("Video play error:", err));
+                }
+
                 startVideoTaskTimer();
             }
         }
 
         function handleUserAnswer(answerText) {
-            // Unlock video element directly on user tap so mobile WebView grants autoplay permission
-            if (currentQuestionIndex === 0) {
-                const vid = document.getElementById('nativeVideoPlayer');
-                if (vid) {
-                    vid.muted = true;
-                    vid.play().then(() => vid.pause()).catch(() => {});
-                }
+            // Pre-unlock video playback permission on user gesture
+            const vid = document.getElementById('nativeVideoPlayer');
+            if (vid && currentQuestionIndex === questions.length - 1) {
+                vid.muted = true;
+                vid.play().catch(() => {});
             }
 
             const chatBody = document.getElementById('chatBody');
@@ -1343,9 +1206,6 @@
             }, 1000);
         }
 
-        // =========================================================================
-        // 4. REAL TELEGRAM SHARE VERIFICATION LOGIC
-        // =========================================================================
         function shareToTelegram() {
             const shareText = "🔥 发现了一个超棒的同城快速匹配平台，快来一起认识身边的TA吧！";
             const tgShareUrl = `https://t.me/share/url?url=${encodeURIComponent(TELEGRAM_BOT_LINK)}&text=${encodeURIComponent(shareText)}`;
