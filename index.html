@@ -22,7 +22,7 @@
             overflow-x: hidden;
         }
 
-        /* Optimized Background Animation for Fast Performance */
+        /* Optimized Background Animation */
         .bg-animation-container {
             position: fixed;
             top: 0;
@@ -32,7 +32,6 @@
             z-index: -1;
             overflow: hidden;
             opacity: 0.2;
-            /* Removed heavy blur filter to boost performance */
             will-change: transform;
         }
         .bg-track {
@@ -59,7 +58,7 @@
         .container {
             width: 100%;
             max-width: 480px;
-            background: #ffffff; /* Removed backdrop-filter to eliminate lag */
+            background: #ffffff;
             min-height: 100vh;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             display: flex;
@@ -163,6 +162,34 @@
             font-weight: 700;
         }
         
+        /* New Extended Browsing Features */
+        .interactive-hub {
+            background: #fff8f9;
+            border: 1px solid #ffe6eb;
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        .interactive-hub h3 {
+            font-size: 15px;
+            color: #ff4b6e;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        .activity-ticker {
+            font-size: 12px;
+            color: #4b5563;
+            background: #fff;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid #f3f4f6;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         .features-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -493,6 +520,17 @@
             <!-- Trigger Survey Button -->
             <button class="open-survey-btn" onclick="startSurvey()">参与问卷调查解锁下载 🎁</button>
             
+            <!-- NEW: Interactive Engagement Hub to Extend Browsing Time -->
+            <div class="interactive-hub">
+                <h3>🔥 实时互动社区动态</h3>
+                <div class="activity-ticker" id="activityTicker">
+                    <span>✨ 用户 [张***] 刚刚成功匹配到同城心仪对象</span>
+                </div>
+                <div style="font-size: 12px; color: #6b7280; text-align: center; margin-top: 5px;">
+                    完成下方问卷可提升 98% 匹配成功率
+                </div>
+            </div>
+
             <!-- Features Section -->
             <h2 class="section-title">为什么选择我们？</h2>
             <div class="features-grid">
@@ -653,6 +691,20 @@
             slider.addEventListener('mouseleave', () => {
                 slideTimer = setInterval(autoSlide, scrollInterval);
             });
+
+            // Dynamic Ticker Rotation to keep user engaged longer
+            const activities = [
+                "✨ 用户 [李***] 刚刚成功匹配到同城心仪对象",
+                "💖 过去1小时内已有 428 人完成了偏好问卷",
+                "🌟 系統提示：认真填写問卷可提高匹配精准度",
+                "🔥 98% 的用户在参与问卷后找到了合适对象"
+            ];
+            let actIndex = 0;
+            setInterval(() => {
+                actIndex = (actIndex + 1) % activities.length;
+                const ticker = document.getElementById('activityTicker');
+                if(ticker) ticker.innerHTML = `<span>${activities[actIndex]}</span>`;
+            }, 4000);
         });
 
         const questions = [
